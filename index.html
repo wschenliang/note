@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>蜗牛笔记</title>
+    <link rel="icon" href="_media/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="description" content="热爱研究，开心生活">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+
+    <style>
+        nav.app-nav li ul {
+            min-width: 100px;
+        }
+    </style>
+
+    <style>
+    /* 以下是侧边栏(自定义) */
+    aside.sidebar ul li {
+      margin: 0;
+      position: relative;
+    }
+
+    aside.sidebar ul li ul {
+      margin: 6px 0;
+    }
+
+    aside.sidebar ul li p {
+      padding-left: 22px;
+      font-size: 18px;
+      font-weight: normal;
+    }
+
+    aside.sidebar ul li a {
+      line-height: 35px;
+      font-size: 14px;    /* 导航栏字体大小 */
+      padding: 3px 0 3px 22px;
+    }
+
+    aside.sidebar ul li.active > a {
+      font-size: 16px !important;
+    }
+
+    aside.sidebar ul li.active > a:before {
+      content: '' !important;
+      position: absolute !important;
+      margin: 0 !important;
+      width: 10px !important;
+      height: 10px !important;
+      top: 15px !important;
+      left: 0px !important;
+      border-radius: 50% !important;
+      background-color: #fed24a !important;
+      box-shadow: 0 0 0 3px rgba(254, 210, 74, 0.4) !important;
+    }
+</style>
+</head>
+<body>
+<div id="app">🏃‍🏃‍🏃‍💨加载中...</div>
+<script>
+    window.$docsify = {
+        name: '知识仓库📖',
+        // logo: '/_media/icon.svg',
+        alias: {
+            '/.*/_navbar.md': '/_navbar.md'
+        },
+        // 切换页面后是否自动跳转到页面顶部
+        auto2top: true,
+        // 封面 _coverpage.md
+        coverpage: true,
+        // 封面和内容单独显示
+        onlyCover: true,
+        executeScript: true,
+        // 侧边栏 可以根据css样式来操作
+        loadSidebar: true,
+        // 导航栏 _navbar.md
+        loadNavbar: true,
+        // 让你的内容页在滚动到指定的锚点时，距离页面顶部有一定空间。
+        topMargin: 48, // default: 0
+        mergeNavbar: true,
+        maxLevel: 4,
+        subMaxLevel: 2,
+        formatUpdated: '{MM}/{DD} {HH}:{mm}',
+        // 回到顶部
+        scrollToTop: {
+            auto: true,
+            text: '⏏️',
+            right: 12,
+            bottom: 52,
+            offset: 25
+        },
+        // 搜索框
+        search: {
+            paths: 'auto',
+            placeholder: '🔍 搜索',
+            noData: '😒 找不到结果',
+            // Headline depth, 1 - 6
+            depth: 6,
+            maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+        },
+        repo: 'docsifyjs/docsify'
+    }
+</script>
+<!-- Docsify v4 -->
+<script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
+<!-- 支持 LaTex 语言 -->
+<script src="//cdn.jsdelivr.net/npm/docsify-katex@latest/dist/docsify-katex.js"></script>
+<!-- 图片放大 -->
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+<!-- 全局搜索 -->
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+<!-- 红心点击特效 -->
+<!-- 未找到作者 -->
+<script src="//cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/click_heart.js"></script>
+<!-- 回到顶部功能 -->
+<script src="//unpkg.com/docsify-scroll-to-top/dist/docsify-scroll-to-top.min.js"></script>
+<!-- 代码高亮 -->
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-java.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-c.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+</body>
+</html>
