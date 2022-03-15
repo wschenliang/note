@@ -1,6 +1,6 @@
 ![logo](_media/img.png)
 
-# 我的知识仓库 <small>1.0</small>
+# 蜗牛笔记 <small>1.0</small>
 
 > Stay hungry, Stay foolish.
 
