@@ -12,8 +12,11 @@
   
 - 🐛 Python
   
-  - [python入门学习笔记](python/python.md)
-  - [python进阶学习笔记](python/python_adv.md)
+  - python语法
+    - [python入门学习笔记](python/python.md)
+    - [python进阶学习笔记](python/python_adv.md)
+  - [python虚拟环境](python/python虚拟环境.md)
+  - [正则表达式](python/python_re.md)
 
 - 📖 休闲阅读
 
@@ -28,8 +31,7 @@
 
 - ☎ 联系我
   
-  - [💬微信](contact/wx.md)
-  - [✉电子邮箱](contact/email.md)
-  - [公众号](contact/gzh.md)
+  - [💬 微信](contact/wx.md)
+  - [✉ 电子邮箱](contact/email.md)
 
 

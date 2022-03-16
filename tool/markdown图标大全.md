@@ -1,4 +1,4 @@
-✨ 👑 📣 🌟 🌀 📌 ☕ 🐍 🐬 💥 📑 🙋 ✍ 🙏 ⏏
+✨ 👑 📣 🌟 🌀 📌 ☕ 🐍 🐬 💥 📑 🙋 ✍ 🙏 ⏏ ⚓
 😄 😆 😊 😃 😏 😍 😘 😚 😳 😌 😆 😁 😉 😜 😝 😀 😗 😙 😛 😴 😟 😦 😧 😮 😬 😕 😯 😑 😒 😅 😓 😥 😩 😔 😞 😖 😨 😰 😣 😢 😭 😂 😲 😱 😫 😠 😡 😤 😪 😋 😷 😎 😵 👿 😈 😐 😶 😇 👽 💛
 
 💙 💜 ❤️💚 💔 💓 💗 💕 💞 💘 💖 ✨ ⭐️ 🌟 💫 💥 💥 💢 ❗️ ❓ ❕ ❔ 💤 💨 💦 🎶 🎵 🔥 💩 💩 💩 👍 👍 👎 👎 👌 👊 👊 ✊ ✌️ 👋 ✋ ✋ 👐 ☝️ 👇 👈 👉 🙌 🙏 👆 👏 💪 🤘 🖕 🏃 🏃 👫 👪 👬 👭 💃 👯 🙆 🙅 💁
@@ -72,12 +72,12 @@ People
 |👬 :two_men_holding_hands:	|👭 :two_women_holding_hands:	|💃 :dancer:|
 |👯 :dancers:	|🙆 :ok_woman:	|🙅 :no_good:|
 |💁 :information_desk_person:	|🙋 :raising_hand:	|👰 :bride_with_veil:|
-|🙎 :person_with_pouting_face:	|🙍 :person_frowning:	|🙇 :bow:|
+|🙎 	|🙍 	|🙇 :bow:|
 |:couplekiss: :couplekiss:	|💑 :couple_with_heart:	|💆 :massage:|
 |💇 :haircut:	|💅 :nail_care:	|👦 :boy:|
 |👧 :girl:	|👩 :woman:	|👨 :man:|
 |👶 :baby:	|👵 :older_woman:	|👴 :older_man:|
-|👱 :person_with_blond_hair:	|👲 :man_with_gua_pi_mao:	|👳 :man_with_turban:|
+|👱 	|👲 :man_with_gua_pi_mao:	|👳 :man_with_turban:|
 |👷 :construction_worker:	|👮 :cop:	|👼 :angel:|
 |👸 :princess:	|😺 :smiley_cat:	|😸 :smile_cat:|
 |😻 :heart_eyes_cat:	|😽 :kissing_cat:	|😼 :smirk_cat:|
@@ -166,7 +166,7 @@ Objects
 🔩 :nut_and_bolt:	|🔨 :hammer:	|💺 :seat:
 💰 :moneybag:	|💴 :yen:	|💵 :dollar:
 💷 :pound:	|💶 :euro:	|💳 :credit_card:
-💸 :money_with_wings:	|📧 :e-mail:	|📥 :inbox_tray:
+💸 :money_with_wings:	|📧 |📥 :inbox_tray:
 📤 :outbox_tray:	|✉️ :envelope:	|📨 :incoming_envelope:
 📯 :postal_horn:	|📪 :mailbox_closed:	|📬 :mailbox_with_mail:
 📭 :mailbox_with_no_mail:	| |🚪 :door:	| |🚬 :smoking:
@@ -194,7 +194,7 @@ Objects
 🎻 :violin:	|👾 :space_invader:	|🎮 :video_game:
 🃏 :black_joker:	|🎴 :flower_playing_cards:	|🎲 :game_die:
 🎯 :dart:	|🀄️ :mahjong:	|🎬 :clapper:
-📝 :memo:	|📝 :pencil:	📖 :book:
+📝 :memo:	|📝 :pencil:	|📖 :book:
 🎨 :art:	|🎤 :microphone:	|🎧 :headphones:
 🎺 :trumpet:	|🎷 :saxophone:	|🎸 :guitar:
 👞 :shoe:	|👡 :sandal:	|👠 :high_heel:
@@ -302,17 +302,17 @@ Symbols
 |🛅 :left_luggage:	|🛃 :customs:	|🉐 :ideograph_advantage:|
 |🆑 :cl:	|🆘 :sos:	|🆔 :id:|
 |🚫 :no_entry_sign:	|🔞 :underage:	|📵 :no_mobile_phones:|
-|🚯 :do_not_litter:	|🚱 :non-potable_water:	|🚳 :no_bicycles:|
+|🚯 :do_not_litter:	|🚱 	|🚳 :no_bicycles:|
 |🚷 :no_pedestrians:	|🚸 :children_crossing:	|⛔️ :no_entry:|
 |✳️ :eight_spoked_asterisk:	|✴️ :eight_pointed_black_star:	|💟 :heart_decoration:|
 |🆚 :vs:	|📳 :vibration_mode:	|📴 :mobile_phone_off:|
-|💹 :chart:	|💱 :currency_exchange:	♈️ :aries:|
+|💹 :chart:	|💱 :currency_exchange:	|♈️ :aries:|
 |♉️ :taurus:	|♊️ :gemini:	|♋️ :cancer:|
 |♌️ :leo:	|♍️ :virgo:	|♎️ :libra:|
 |♏️ :scorpius:	|♐️ :sagittarius:	|♑️ :capricorn:|
 |♒️ :aquarius:	|♓️ :pisces:	|⛎ :ophiuchus:|
 |🔯 :six_pointed_star:	|❎ :negative_squared_cross_mark:	|🅰️ :a:|
-|🅱️ :b:	🆎 :ab:	🅾️ :o2:|
+|🅱️ :b:	|🆎 :ab:	|🅾️ :o2:|
 |💠 :diamond_shape_with_a_dot_inside:	|♻️ :recycle:	|🔚 :end:|
 |🔛 :on:	|🔜 :soon:	|🕐 :clock1:|
 |🕜 :clock130:	|🕙 :clock10:	|🕥 :clock1030:|
@@ -330,7 +330,7 @@ Symbols
 |💮 :white_flower:	|💯 :100:	|✔️ :heavy_check_mark:|
 |☑️ :ballot_box_with_check:	|🔘 :radio_button:	|🔗 :link:|
 |➰ :curly_loop:	|〰️ :wavy_dash:	|〽️ :part_alternation_mark:|
-|🔱 :trident:	|:black_square: :black_square:	|:white_square: :white_square:|
+|🔱 :trident:	| | |
 |✅ :white_check_mark:	|🔲 :black_square_button:|	🔳 :white_square_button:|
 |⚫️ :black_circle:	|⚪️ :white_circle:	|🔴 :red_circle:|
 |🔵 :large_blue_circle:	|🔷 :large_blue_diamond:	|🔶 :large_orange_diamond:|
