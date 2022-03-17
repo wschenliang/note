@@ -15,18 +15,18 @@
   - python语法
     - [python入门学习笔记](python/python.md)
     - [python进阶学习笔记](python/python_adv.md)
-  - [python虚拟环境](python/python虚拟环境.md)
+  - [python虚拟环境](python/python_virtual.md)
   - [正则表达式](python/python_re.md)
 
 - 📖 休闲阅读
 
-  - [互联网的十年](read/互联网的十年.md)
-  - [那些给人工智能打工的人](read/那些给人工智能打工的人.md)
+  - [互联网的十年](read/Internet_10_years.md)
+  - [那些给人工智能打工的人](read/The_people_work_for_AI.md)
   
 
 - 🔨 工具箱
   
-  - [markdown图标大全](tool/markdown图标大全.md)
+  - [markdown图标大全](tool/markdown_icon.md)
 
 
 - ☎ 联系我
