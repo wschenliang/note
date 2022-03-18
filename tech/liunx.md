@@ -16,13 +16,17 @@
 
 *命令格式：命令名 [-options] 命令参数*
 
-pwd, ls, tree
+```shell
+pwd # 查看路径
+ls # 查看列表
+tree # 查看目录结构
+```
 - ls -a 显示隐藏文件
 - ls -l 以列表方式显示文件详细信息
 - ls -h配合-l以人性化方式显示文件大小
 - ls -l -h == ls -lh ls -al == ll
 
-
+# 文件操作
 - mkdir -p 递归创建目录
 - gedit 文件名 ==> 打开文件
 - rm -rf: -r ==> 递归删除目录下内容 -f==>强制删除，忽略不存在的文件
@@ -44,30 +48,29 @@ pwd, ls, tree
 - 空格键 向下滚动⼀屏
 - q 退出 more
 
-# 数据流重定向：>
+## 数据流重定向：>
 > 命令 > a.txt 把执行的结果重定向输出到a.txt文件里面
 
-# 管道：|
+## 管道：|
 分为两端，左端塞东西，右端取东西
 它只能处理经由前⾯⼀个指令传出的正确输出信息，对错误信息信息没有直接处理能⼒。然后，传递给下⼀个命令，作为标准的输⼊.
 
-# 软链接：软链接不占⽤磁盘空间，源⽂件删除则软链接失效。
+## 软链接：软链接不占⽤磁盘空间，源⽂件删除则软链接失效。
 > ln -s 源⽂件 链接⽂件
 
-# 硬链接(hard link, 也称链接)：就是⽂件的⼀个或多个⽂件名
+## 硬链接(hard link, 也称链接)：就是⽂件的⼀个或多个⽂件名
 > ln 源⽂件 链接⽂件
 
 如果 没有-s 选项代表建⽴⼀个硬链接⽂件，两个⽂件占⽤相同⼤⼩的硬盘空间，即使删除了源⽂件，链接⽂件还是存在，所以-s选项是更常⻅的形式。
 注意：如果软链接⽂件和源⽂件不在同⼀个⽬录，源⽂件要使⽤绝对路径，不能使⽤相对路径。
 
-
-## 软连接和硬链接的区别
-1).软链接可以跨⽂件系统，硬链接不可以;
-2).软链接可以对⼀个不存在的⽂件名(filename)进⾏链接(当然此时如果你vi这个软链接⽂件，
+**软连接和硬链接的区别**
+- 软链接可以跨⽂件系统，硬链接不可以;
+- 软链接可以对⼀个不存在的⽂件名(filename)进⾏链接(当然此时如果你vi这个软链接⽂件，
 linux会⾃动新建⼀个⽂件名为filename的⽂件),硬链接不可以(其⽂件必须存在，inode必须存在);
-3).软链接可以对⽬录进⾏连接，硬链接不可以。
+- 软链接可以对⽬录进⾏连接，硬链接不可以。
 
-
+# 查询操作
 - find ./ -name test.sh 查找当前⽬录下所有名为test.sh的⽂件
 - find ./ -name '*.sh' 查找当前⽬录下所有后缀为.sh的⽂件
 - find ./ -name "[A-Z]*"查找当前⽬录下所有以⼤写字⺟开头的⽂件，* 表示任意字符，？表示任意⼀个字符，[列举字符] 表示列举出的任意⼀个字符
@@ -140,29 +143,7 @@ chmod 777 test/ -R
 - sudo dpkg -i package.deb
 - sudo apt-get install xxxx
 
-## ubuntu更换镜像源
-> /etc/apt/sources.list
-
-# ubuntu相关指令
-- sudo apt-get update 更新源
-- sudo apt-get install package 安装包
-- sudo apt-get remove package 删除包
-- sudo apt-cache search package 搜索软件包
-- sudo apt-cache show package 获取包的相关信息，如说明、⼤⼩、版本等
-- sudo apt-get install package --reinstall 重新安装包
-- sudo apt-get -f install 修复安装
-- sudo apt-get remove package --purge 删除包，包括配置⽂件等
-- sudo apt-get build-dep package 安装相关的编译环境
-- sudo apt-get upgrade 更新已安装的包
-- sudo apt-get dist-upgrade 升级系统
-- sudo apt-cache depends package 了解使⽤该包依赖那些包
-- sudo apt-cache rdepends package 查看该包被哪些包依赖
-- sudo apt-get source package 下载该包的源代码
-- sudo apt-get clean && sudo apt-get autoclean 清理⽆⽤的包
-- sudo apt-get check 检查是否有损坏的依赖
-
-- sudo apt-get install openssh-server
-
+# 下载和上传
 - 下载：scp [-r] ⽬标⽤户名@⽬标主机IP地址：/⽬标⽂件的绝对路径 /保存到本机的绝对/相对路径
 - 远程⽂件复制到本地：scp teacher@192.168.31.163:/home/teacher/test.py ./test.py
 - 远程⽂件夹复制到本地：scp -r teacher@192.168.31.163:/home/teacher/test ./test
