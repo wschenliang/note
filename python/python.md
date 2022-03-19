@@ -789,7 +789,8 @@ class People(object):
     def set_money(cls, money):
         cls.__money = money
 ```
-类属性
+
+5.类属性
 ```python
 class People(object):
     class_name = '人类'
@@ -800,11 +801,15 @@ print(p.__dict__) # ==> {'name': 'chen'}  打印dog对象具有的属性，字�
 print(p.class_name) # ==> 人类  访问类属性
 print(People.class_name)  # ==> 人类
 ```
-实例属性：就是每个对象都存在一份，但是值不一样。相当于成员变量
-类属性：在类内部，公用一个。相当于共有静态变量
-如果存实例属性和类属性的重名，使用实例访问的一定是实例属性，不是类属性
-类方法
-用@classmethod修饰
+
+- 实例属性：就是每个对象都存在一份，但是值不一样。相当于成员变量
+- 类属性：在类内部，公用一个。相当于共有静态变量
+- 如果存实例属性和类属性的重名，使用实例访问的一定是实例属性，不是类属性
+
+6.类方法
+
+> 用@classmethod修饰
+
 ```python
 class People(object):
     class_name = '人类'
@@ -823,12 +828,14 @@ print(p.get_class_name())  # ==> 人类
         return cls.class_name # 输出类属性
 print(p.get_class_name(1))  # 静态方法如有参数，就必须传递参数值
 ```
-静态方法
+
+7.静态方法
 用@staticmethod修饰
 
-多态
-实例化父类的时候，调用的是父类的方法
-实例化子类的时候，调用的是子类的重写方法
+8.多态
+
+- 实例化父类的时候，调用的是父类的方法
+- 实例化子类的时候，调用的是子类的重写方法
 
 ## 异常
 
@@ -886,9 +893,9 @@ finally:
 
 > raise 异常对象  # 当程序代码遇到 raise时候，程序就报错了
 
-1.自定义异常类，基础Exception或者baseException
-2.选择书写，定义__init__方法和__str__方法
-3.合适的时机抛出异常
+- 自定义异常类，基础Exception或者baseException
+- 选择书写，定义__init__方法和__str__方法
+- 合适的时机抛出异常
 
 ```python
 class DefineError(Exception):
@@ -925,19 +932,17 @@ __all__ = ['name', 'func']  # 可以写变量名和函数名
 
 3.模块中的__name__变量
 
-每个模块都有，是系统自己定义的
+*每个模块都有，是系统自己定义的*
 
-1.直接运行当前代码，值为__main__
-2.把文件作为模块导入时，运行，结果是 模块名
-相当于每个模块中加上if __name__ == '__main__': 则等同于测试案例
+- 直接运行当前代码，值为__main__
+- 把文件作为模块导入时，运行，结果是 模块名 相当于每个模块中加上if __name__ == '__main__': 则等同于测试案例
 
 **注意：**
 - 自己定义的模块名字，不要和系统中你要使用的模块名字相同
 - 模块的搜索顺序，当前目录--系统目录--程序报错
 - 包：功能相近或者相似的模块放在一个目录中，并且在目录中定义一个 __init__.py文件，这个目录就是包
 - from 包名 import *  # 导入的是__init__.py中的内容
-
-```python
+```
 from my_package import *
 ```
 

@@ -10,12 +10,12 @@
   - [mirai操作手册](tech/mirai.md)
   - [ubuntu安装](tech/ubuntu.md)
   - [Liunx常用命令](tech/liunx.md)
+  - [查询局域网内设备在线ip](tech/find_ip_LAN.md)
   
 - 🐛 Python
-  
-  - python语法
-    - [python基础语法](python/python.md)
-    - [python进阶学习](python/python_adv.md)
+
+  - [python基础语法](python/python.md)
+  - [python进阶学习](python/python_adv.md)
   - [python虚拟环境](python/python_virtual.md)
   - [正则表达式](python/python_re.md)
 
