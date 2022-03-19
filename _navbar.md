@@ -1,5 +1,5 @@
 + [🔗 网站](/README.md)
   + [👑 主站](/README.md)
   + [🐵 博客](https://www.cnblogs.com/godliang/)
-  + [:octocat: GitHub](https://github.com/wschenliang)
+  + [:octocat: GitHub](https://github.com/wschenliang/wiki-doscify)
   + [⚓ Gitee](https://gitee.com/chenl006)

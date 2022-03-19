@@ -6,5 +6,5 @@
 
 - 求学若饥，虚心若愚
 
-[GitHub](https://gitee.com/chenl006)
+[GitHub](https://github.com/wschenliang/wiki-doscify)
 [开始阅读](/README.md)
