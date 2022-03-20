@@ -2,6 +2,8 @@
 
 ## 数据库的安装
 
+1.ubuntu安装mysql
+
 ```shell
 sudo apt-get install mysql-server
 ```
@@ -33,7 +35,7 @@ sudo service mysql stop
 sudo service mysql restart
 ```
 
-## MySQL配置⽂件
+2. MySQL配置⽂件
 
 > 路径：为/etc/mysql/mysql.conf.d/mysql.cnf
 
@@ -44,7 +46,7 @@ sudo service mysql restart
     - general_log_file表示普通⽇志，默认为/var/log/mysql/mysql.log
     - log_error表示错误⽇志，默认为/var/log/mysql/error.log
 
-## 安装navicat
+3. ubuntu安装navicat
 
 - 可以到Navicat官⽹下载
 - 将压缩⽂件拷⻉到ubuntu虚拟机中，放到桌⾯上，解压
@@ -68,7 +70,7 @@ tar zxvf navicat112_mysql_cs_x64.tar.gz
 sudo apt-get install mysql-client
 ```
 
-# 数据库完整性
+## 数据库完整性
 
 约束介绍：约束作⽤是保证数据的完整性和⼀致性，分为表级约束和列级约束。
 
@@ -80,29 +82,35 @@ sudo apt-get install mysql-client
 |DEFAULT |默认约束（该数据的默认值）|
 |FOREIGN KEY |外键约束（需要建⽴两表间的关系）|
 
-# 数据类型
-## 数值
-浮点型float(M,D) 、 double (M,D)  M代表总数字的位数，最⼤值是255。D代表其中⼩数的位数。
-float只保证6位有效数字的准确性 double只保证16位有效数字的准确性
-定点数decimal(M,D)，M代表总的数字位数【最⼤为65】，D代表其中的⼩数位。
-## 字符串
+## 数据类型
+1. 数值
+- 浮点型float(M,D) 、 double (M,D)  M代表总数字的位数，最⼤值是255。D代表其中⼩数的位数。
+- float只保证6位有效数字的准确性 double只保证16位有效数字的准确性
+- 定点数decimal(M,D)，M代表总的数字位数【最⼤为65】，D代表其中的⼩数位。
+
+2. 字符串
 - char最多能保存255个字符(⽆论中⽂还是英⽂还是任何符号
 - varchar最多能保存65535个字节
 - char也叫做定⻓字符串，指的是在创建表时，char字段占⽤硬盘空间的⼤⼩就已经固定了。
 - varchar也叫做变⻓字符串，指的是字段占⽤硬盘空间的⼤⼩并不是固定的，⽽是由内容决定的，等于内容的⻓度+1个字节(字符串结束'\0')。
 - text:与char和varchar不同的是，text不可以有默认值，其最⼤⻓度是2的16次⽅-1
 经常变化的字段⽤varchar知道固定⻓度的⽤char超过255字符的只能⽤varchar或者text
-##  枚举类型
-枚举类型enum，在定义字段时就预告规定好固定的⼏个值，然后插⼊记录时值只能这⼏个固定好的值中选择⼀个。
-⼀个enum最多可以设置65535个值
-当值是⼏个固定可选时，⽐如：性别、星期、⽉份、表示状态时(⽐如:是、否)
-## 时间类型
-datetime保存时间的范围： '1000-01-01 00:00:00' 到 '9999-12-31 23:59:59'
-timestamp保存时间的范围： '1970-01-01 00:00:01' 到 '2038-01-19 03:14:07'
+
+3.  枚举类型
+
+- 枚举类型enum，在定义字段时就预告规定好固定的⼏个值，然后插⼊记录时值只能这⼏个固定好的值中选择⼀个。
+- ⼀个enum最多可以设置65535个值
+- 当值是⼏个固定可选时，⽐如：性别、星期、⽉份、表示状态时(⽐如:是、否)
+
+4. 时间类型
+- datetime保存时间的范围： '1000-01-01 00:00:00' 到 '9999-12-31 23:59:59'
+- timestamp保存时间的范围： '1970-01-01 00:00:01' 到 '2038-01-19 03:14:07'
 
 
 
-# 数据库操作
+## 数据库操作
+
+1.数据库基本操作
 ```sql
 show databases;
 select database();
@@ -111,7 +119,8 @@ use 数据库名;
 drop database 数据库名;
 ```
 
-## 创建表
+2.创建表
+
 ```sql
 CREATE TABLE table_name(
 -- 字段名称 数据类型 可选的约束条件,
@@ -125,7 +134,8 @@ columnN datatype,
 PRIMARY KEY(one or more columns)
 );
 ```
-查看当前数据库中所有的表
+
+3.查看当前数据库中所有的表
 ```sql
 show tables;
 -- 查看表结构
@@ -134,7 +144,7 @@ desc 表名;
 show create table 表名;
 ```
 
-## 修改表
+4.修改表
 ```sql
 --  添加字段
 alter table 表名 add 列名 类型;
@@ -145,12 +155,14 @@ alter table 表名 modify 列名 类型及约束;
 --  删除字段
 alter table 表名 drop 列名;
 ```
-## 删除表
+5.删除表
+
 ```sql
 drop table 表名;
 ```
 
-# 表数据操作-CRUD
+6.表数据操作-CRUD
+
 ```sql
 select * from 表名;
 select 列1,列2,... from 表名;
@@ -164,23 +176,27 @@ update 表名 set 列1=值1,列2=值2... where 条件;
 delete from 表名 where 条件;
 ```
 
-## as起别名
-注意: 在这⾥给表起别名看起来并没有什么意义,然⽽并不是这样的，我们在后期学习 ⾃连接 的
-时候，必须要对表起别名。
+7.as起别名
+
+> 注意: 在这⾥给表起别名看起来并没有什么意义,然⽽并不是这样的，我们在后期学习⾃连接的时候，必须要对表起别名。
+
 ```sql
 select id as 序号, name as 名字, gender as 性别 from students;
 select s.id,s.name,s.gender from students as s
 ```
 
-## distinct可以消除重复的⾏
+8.distinct可以消除重复的⾏
+
 ```sql
 select distinct 列1,... from 表名;
 -- 看到了很多重复数据 想要对其中重复数据⾏进⾏去重操作可以使⽤ distinct
 select distinct gender from students;
 ```
 
-## where
-where后⾯⽀持多种运算符，进⾏条件的处理：⽐较运算符 逻辑运算符 模糊查询 范围查询 空判断
+9.where
+
+> where后⾯⽀持多种运算符，进⾏条件的处理：⽐较运算符 逻辑运算符 模糊查询 范围查询 空判断
+
 ```sql
 -- ⽐较运算符
 select * from students where id > 3;
@@ -243,11 +259,13 @@ select avg(id) from students where is_delete=0 and gender=2;
 分组就是将⼀个“数据集”划分成若⼲个“⼩区域”，然后针对若⼲个“⼩区域”进⾏数据处理。
 
 使⽤特点
-1. group by的含义:将查询结果按照1个或多个字段进⾏分组，字段值相同的为⼀组
-2. group by可⽤于单个字段分组，也可⽤于多个字段分组
+- group by的含义:将查询结果按照1个或多个字段进⾏分组，字段值相同的为⼀组
+- group by可⽤于单个字段分组，也可⽤于多个字段分组
 
-### group by + group_concat()
-group_concat(字段名)根据分组结果，使⽤group_concat()来放置每⼀个分组中某字段的集合
+1.group by + group_concat()
+
+> group_concat(字段名)根据分组结果，使⽤group_concat()来放置每⼀个分组中某字段的集合
+
 ```sql
 select gender,group_concat(name) from students group by gender;
 ```
@@ -260,8 +278,10 @@ select gender,group_concat(name) from students group by gender;
 | 保密 | 凤姐 |
 +--------+-----------------------------------------------------------+
 
-###  group by + 聚合函数
-聚合函数在和group by结合使⽤的时候 统计的对象是每⼀个分组。
+2.group by + 聚合函数
+
+> 聚合函数在和group by结合使⽤的时候 统计的对象是每⼀个分组。
+
 ```sql
 select gender,group_concat(age) from students group by gender;
 -- 分别统计性别为男/⼥的⼈年龄平均值
@@ -270,45 +290,25 @@ select gender,avg(age) from students group by gender;
 select gender,count(*) from students group by gender;
 ```
 
-### group by + having
-having 条件表达式：⽤来过滤分组结果
+3.group by + having
+
+> having 条件表达式：⽤来过滤分组结果
 
 ```sql
 select gender,count(*) from students group by gender having count(*)>2;
 ```
-+--------+----------+
-| gender | count(*) |
-+--------+----------+
-| 男 | 5 |
-| ⼥ | 7 |
-+--------+----------+
 
-### group by + with rollup
- with rollup的作⽤是：在最后新增⼀⾏，来记录当前表中该字段对应的操作结果，⼀般是汇总结果。
+4.group by + with rollup
+
+> with rollup的作⽤是：在最后新增⼀⾏，来记录当前表中该字段对应的操作结果，⼀般是汇总结果。
+
 ```sql
 select gender,count(*) from students group by gender with rollup;
 ```
-+--------+----------+
-| gender | count(*) |
-+--------+----------+
-| 男 | 5
-| ⼥ | 7 |
-| 中性 | 1 |
-| 保密 | 1 |
-| NULL | 14 |
-+--------+----------+
+
 ```sql
 select gender,group_concat(age) from students group by gender with rollup;
 ```
-+--------+-------------------------------------------+
-| gender | group_concat(age) |
-+--------+-------------------------------------------+
-| 男 | 29,59,36,27,12 |
-| ⼥ | 18,18,38,18,25,12,34 |
-| 中性 | 33 |
-| 保密 | 28 |
-| NULL | 29,59,36,27,12,18,18,38,18,25,12,34,33,28 |
-+--------+-------------------------------------------+
 
 **总结：**
 1. group by 关键字能根据1个或多个字段对数据进⾏分组
@@ -322,8 +322,8 @@ select gender,group_concat(age) from students group by gender with rollup;
 可以使⽤limit限制取出记录的数量，但limit要写在sql语句的最后。
 > limit 起始记录,记录数
 
-1. 起始记录是指从第⼏条记录开始取，第⼀条记录的下标是0。
-2. 记录数是指从起始记录开始向后依次取的记录数。
+- 起始记录是指从第⼏条记录开始取，第⼀条记录的下标是0。  
+- 记录数是指从起始记录开始向后依次取的记录数。
 
 ```sql
 -- 从第下标为0的记录开始取，取3条
@@ -331,9 +331,10 @@ select * from students limit 0,3;
 ```
 
 ## 连接 join on
-内连接查询：查询的结果为两个表匹配到的数据
-右(外)连接查询：查询的结果为两个表匹配到的数据和右表特有的数据
-左(外)连接查询：查询的结果为两个表匹配到的数据和左表特有的数据
+
+- 内连接查询：查询的结果为两个表匹配到的数据
+- 右(外)连接查询：查询的结果为两个表匹配到的数据和右表特有的数据
+- 左(外)连接查询：查询的结果为两个表匹配到的数据和左表特有的数据
 
 ```sql
 -- 内连接查询班级表与学⽣表
@@ -405,17 +406,131 @@ FROM tb_name
 ]
 ```
 
-# 数据库三范式
-第⼀范式（1NF）：强调的是列的原⼦性，即列不能够再分成其他⼏列。
+## 数据库三范式
 
-第⼆范式（2NF）：满⾜ 1NF，另外包含两部分内容，
-- 表必须有⼀个主键；
-- ⾮主键字段 必须完全依赖于主键，⽽不能只依赖于主键的⼀部分。
+1.第⼀范式（1NF）：强调的是列的原⼦性，即列不能够再分成其他⼏列。
 
-第三范式（3NF）：满⾜ 2NF，另外⾮主键列必须直接依赖于主键，不能存在传
-递依赖。即不能存在：⾮主键列 A 依赖于⾮主键列 B，⾮主键列 B 依赖于主键的情况。
+2.第⼆范式（2NF）：满⾜ 1NF，另外包含两部分内容，
+  - 表必须有⼀个主键；
+  - ⾮主键字段 必须完全依赖于主键，⽽不能只依赖于主键的⼀部分。
+
+3.第三范式（3NF）：满⾜ 2NF，另外⾮主键列必须直接依赖于主键，不能存在传递依赖。即不能存在：⾮主键列 A 依赖于⾮主键列 B，⾮主键列 B 依赖于主键的情况。
 
 **总结：**
-1NF强调字段是最⼩单元，不可再分
-2NF强调在1NF基础上必须要有主键和⾮主键字段必须完全依赖于主键，也就是说 不能部分依赖
-3MF强调在2NF基础上 ⾮主键字段必须直接依赖于主键，也就是说不能传递依赖(间接依赖)。
+- 1NF强调字段是最⼩单元，不可再分
+- 2NF强调在1NF基础上必须要有主键和⾮主键字段必须完全依赖于主键，也就是说 不能部分依赖
+- 3MF强调在2NF基础上 ⾮主键字段必须直接依赖于主键，也就是说不能传递依赖(间接依赖)。
+
+
+
+## 索引
+
+1.索引的使⽤
+
+```sql
+-- 查看表中已有索引
+show index from 表名;
+-- 创建索引
+create index 索引名称 on 表名(字段名称(⻓度))
+-- 删除索引
+drop index 索引名称 on 表名;
+```
+2. 查询
+
+```sql
+-- 开启运⾏时间监测：
+set profiling=1;
+-- 查找第1万条数据ha-99999
+select * from test_index where title='ha-99999';
+-- 查看执⾏的时间：
+show profiles;
+-- 为表title_index的title列创建索引：
+create index title_index on test_index(title(10));
+-- 执⾏查询语句：
+select * from test_index where title='ha-99999';
+-- 再次查看执⾏的时间
+show profiles;
+```
+
+**注意**
+建⽴太多的索引将会影响更新和插⼊的速度，因为它需要同样更新每个索引⽂件。对于⼀个经常需要更新和插⼊的表格，就没有必要为⼀个很少使⽤的where字句单独建⽴
+索引了，对于⽐较⼩的表，排序的开销不会很⼤，也没有必要建⽴另外的索引。建⽴索引会占⽤磁盘空间
+
+
+
+
+## ⽤户管理
+
+MySQL账户体系：根据账户所具有的权限的不同，MySQL的账户可以分为以下⼏种
+- 服务实例级账号：，启动了⼀个mysqld，即为⼀个数据库实例；如果某⽤户如root,拥有服务
+- 实例级分配的权限，那么该账号就可以删除所有的数据库、连同这些库中的表
+- 数据库级别账号：对特定数据库执⾏增删改查的所有操作
+- 数据表级别账号：对特定表执⾏增删改查等所有操作
+- 字段级别的权限：对某些表的特定字段进⾏操作
+- 存储程序级别的账号：对存储程序进⾏增删改查的操作
+
+**注意：**
+进⾏账户操作时，需要使⽤root账户登录，这个账户拥有最⾼的实例级权限。账户的操作主要包括创建账户、删除账户、修改密码、授权权限等。
+
+
+1.查看所有⽤户
+
+```sql
+use mysql;
+desc user;
+select host,user,authentication_string from user;
+```
+authentication_string表示密码，为加密后的值
+
+2.创建账户、授权
+
+```sql
+grant 权限列表 on 数据库 to '⽤户名'@'访问主机' identified by '密码';
+
+grant select on jing_dong.* to 'laowang'@'localhost' identified by '123456';
+```
+- 可以操作python数据库的所有表，⽅式为: jing_dong.*
+- 访问主机通常使⽤ 百分号% 表示此账户可以使⽤任何ip的主机登录访问此数据库
+- 访问主机可以设置成 localhost或具体的ip，表示只允许本机或特定主机访问
+
+3.查看⽤户有哪些权限
+
+```sql
+show grants for laowang@localhost;
+```
+
+4.修改权限
+
+```sql
+grant 权限名称 on 数据库 to 账户@主机 with grant option;
+```
+
+5.修改密码
+
+```sql
+update user set authentication_string=password('新密码') where user='⽤户名';
+
+update user set authentication_string=password('123') where user='laowang';
+```
+
+6.刷新权限
+
+改完成后需要刷新权限
+```sql
+flush privileges
+```
+
+7.删除账户
+
+使⽤root登录
+```sql
+drop user '⽤户名'@'主机';
+drop user 'laowang'@'%';
+
+delete from user where user='⽤户名';
+delete from user where user='laowang';
+
+-- 操作结束之后需要刷新权限
+flush privileges
+```
+推荐使⽤语法1删除⽤户, 如果使⽤语法1删除失败，采⽤语法2⽅式
