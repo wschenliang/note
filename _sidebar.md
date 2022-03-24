@@ -13,9 +13,11 @@
   
 - 🐛 Python
 
-  - [python基础语法](python/python.md)
-  - [python进阶学习](python/python_adv.md)
+  - [python基础语法](python/python_1.md)
+  - [python进阶学习](python/python_2.md)
+  - [python高阶笔记](python/python_3.md)
   - [python虚拟环境](python/python_virtual.md)
+  - [python中使用mysql](python/python_mysql.md)
   - [正则表达式](python/python_re.md)
 
 - 📖 休闲阅读
