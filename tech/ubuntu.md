@@ -29,6 +29,49 @@
 ## ubuntu更换镜像源
 > /etc/apt/sources.list
 
+阿里源
+```shell
+deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+
+deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+```
+
+清华源
+```shell
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal universe
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates universe
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal multiverse
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates multiverse
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security universe
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security multiverse
+```
+刷新软件信息
+```shell
+sudo apt update
+# 更新软件
+sudo apt upgrade
+```
+
 ## ubuntu安装mysql：
 ### 卸载
 1.删除mysql的数据文件
