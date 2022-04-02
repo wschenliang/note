@@ -194,5 +194,25 @@ sudo apt-get install wireshark
 sudo usermod -aG wireshark 你的用户名
 ```
 
+## 创建普通用户，并授予root权限
+
+ 1.添加新用户：useradd   chenliang
+
+ 2.为添加的用户设定密码：passwd    chenliang
+
+ 3.为该用户指定命令解释程序：usermod -s /bin/bash  chenliang
+
+ 4.为该用户指定用户主目录：usermod -d /home/chenliang  chenliang
+
+ 5.查看用户的属性：cat /etc/passwd
+
+ 6. 修改/etc/sudoers文件，进入超级用户，授权文件写权限  chmod u+w /etc/sudoers
+
+ 7.在root  ALL=(ALL)   ALL   下面加上自己的要授权的普通用户  chenliang  ALL=(ALL)   ALL 并保存。
+
+ 8.恢复/etc/sudoers文件的权限 chmod u-w /etc/sudoers
+
+这样新创建的chenliang用户，就有了root权限。
+
 
 
