@@ -9,6 +9,7 @@
 
   - [ubuntu安装](tech/ubuntu.md)
   - [Liunx常用命令](tech/liunx.md)
+  - [mirai操作手册](tech/mirai.md)
   - [查询局域网内设备在线ip](tech/find_ip_LAN.md)
   
 - 🐛 Python
