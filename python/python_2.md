@@ -1,33 +1,42 @@
-# ⽹络通信
-## 常见端口：
-FTP 21, SSH 22, TELNET 23, SMTP 25, DNS 53, HTTP 80, POP3 110, HTTPS 443
-netstat －an查看端⼝状态
-netstat -ntl （可以查看服务器socket）
-sudo lsof -i : 端口号  可以查看端口号被哪个程序占用
+## ⽹络通信
+常见端口：
+  
+  |FTP|SSH|TELNET|SMTP|DNS|HTTP|POP3|HTTPS|
+  |:---|:---:|:---:|:---:|:---:|:---:|:---:|---:|
+  |21|22|23|25|53|80|110|443|
+  
+- netstat －an查看端⼝状态
+- netstat -ntl （可以查看服务器socket）
+- sudo lsof -i : 端口号  可以查看端口号被哪个程序占用
 
 ## 创建socket
-socket即是⼀种特殊的⽂件，⼀些socket类就是对其进⾏的操作（读/写IO、打开、关闭）
-import socket
-socket.socket(AddressFamily, Type)
-AddressFamily(地址簇):socket.AF_INET IPv4（默认）, socket.AF_INET6 IPv6, socket.AF_UNIX
-Type(类型):socket.SOCK_STREAM 流式socket for TCP（默认）, socket.SOCK_DGRAM 数据报式socket for UDP
 
-'''
+socket即是⼀种特殊的⽂件，⼀些socket类就是对其进⾏的操作（读/写IO、打开、关闭）
+```python
+import socket
+socket.socket("AddressFamily", "Type")
+```
+- AddressFamily(地址簇):socket.AF_INET IPv4（默认）, socket.AF_INET6 IPv6, socket.AF_UNIX
+- Type(类型):socket.SOCK_STREAM 流式socket for TCP（默认）, socket.SOCK_DGRAM 数据报式socket for UDP
+
+```python
 import socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # 创建tcp的套接字
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # 创建udp的套接字
 s.close() # 不⽤的时候，关闭套接字
-'''
+```
 
 ##socket对象方法
-###服务器端套接字：
+
+1.服务器端套接字：
 - s.bind() # 绑定地址（host,port）到套接字， 在AF_INET下,以元组（host,port）的形式表示地址。
 - s.listen() # 开始TCP监听。backlog指定在拒绝连接之前，操作系统可以挂起的最⼤连接数量。该值>=1，⼤部分应⽤程序设为5。
-- s.accept() # 被动接受TCP客户端连接,(阻塞式)等待连接的到来
-###客户端套接字:
+
+2.客户端套接字:
 - s.connect() # 主动初始化TCP服务器连接。⼀般address的格式为元组（hostname,port）
 - s.connect_ex() # connect()函数的扩展版本,出错时返回出错码，不抛出异常。
-###公共⽤途的套接字函数：
+
+3.公共⽤途的套接字函数：
 - s.recv() # 接收TCP数据，数据以字符串形式返回，bufsize指定要接收的最⼤数据量。flag提供有关消息的其他信息，通常可以忽略。
 - s.send() # 发送TCP数据，将string中的数据发送到连接的套接字。
 - s.sendall() # 完整发送TCP数据。将string中的数据发送到连接的套接字，但在返回之前会尝试发送所有数据。成功返回None，失败则抛出异常。
@@ -45,87 +54,137 @@ s.close() # 不⽤的时候，关闭套接字
 - s.makefile() # 创建⼀个与该套接字相关连的⽂件
 
 
-# udp⽹络程序
+## udp⽹络程序
 
-## 发送数据:
-1.socket.socket —— 建⽴套接字
+1.发送数据:
+
+```python
+import socket
+# 建⽴套接字
 udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-2. socket.sendto —— 发送数据
+# 发送数据
 udp_socket.sendto("你好".encode(), ("127.0.0.1", 8888))
-3. socket.close —— 关闭套接字
+# 关闭套接字
 udp_socket.close()
+```
 
-##接受数据:
-socket.recvfrom(缓冲区⼤⼩) —— 接受UDP套接字的数据
-socket.recvfrom(1024) 使⽤udp⽅式接收数据，每次接收1024个字节
-decode() —— 解码，把⼆进制数据解码为 字符串 类型
-str = data.decode() 把data 解码为字符串并且保存到 str变量中
+2.接受数据:
 
+- socket.recvfrom(缓冲区⼤⼩) —— 接受UDP套接字的数据
+- socket.recvfrom(1024) 使⽤udp⽅式接收数据，每次接收1024个字节
+- decode() —— 解码，把⼆进制数据解码为 字符串 类型
+- str = data.decode() 把data 解码为字符串并且保存到 str变量中
+
+```python
 from socket import *
-1. 创建udp套接字
+# 创建udp套接字
 udp_socket = socket(AF_INET, SOCK_DGRAM)
-2. 准备接收⽅的地址
+# 准备接收⽅的地址
 dest_addr = ('192.168.236.129', 8080)
-3. 发送数据到指定的电脑上
+# 发送数据到指定的电脑上
+send_data = ""
 udp_socket.sendto(send_data.encode('utf-8'), dest_addr)
-4. 等待接收对⽅发送的数据
+# 等待接收对⽅发送的数据
 recv_data = udp_socket.recvfrom(1024) # 1024表示本次接收的最⼤字节数
-5. 显示对⽅发送的数据
-接收到的数据recv_data是⼀个元组,第1个元素是对⽅发送的数据,第2个元素是对⽅的ip和端⼝
+# 显示对⽅发送的数据 接收到的数据recv_data是⼀个元组,第1个元素是对⽅发送的数据,第2个元素是对⽅的ip和端⼝
 print(recv_data[0].decode('gbk'))
 print(recv_data[1])
-6. 关闭套接字
+# 关闭套接字
 udp_socket.close()
+```
    
-##UDP绑定端口
+3.UDP绑定端口
+
 ⼀个udp⽹络程序，可以不绑定，此时操作系统会随机进⾏分配⼀个端⼝，如果重新运⾏此程序端⼝可能会发⽣变化
 也可以绑定信息（ip地址，端⼝号），如果绑定成功，那么操作系统⽤这个端⼝号来进⾏区别收到的⽹络数据是否是此进程的
-udp_socket.bind(address)
-address 是一个元组,元组的第一个元素是字符串类型的IP地址，第二个元素 整数端口号。 
-udp_socket.bind(("", 8888)) # ip地址可以省略，省略后表示自己的ip地址
+```python
+from socket import *
+# 创建udp套接字
+udp_socket = socket(AF_INET, SOCK_DGRAM)
+udp_socket.bind("address")
+```
+- address 是一个元组,元组的第一个元素是字符串类型的IP地址，第二个元素 整数端口号。 
+- udp_socket.bind(("", 8888)) # ip地址可以省略，省略后表示自己的ip地址
 
-# FTP
-安装vsftpd服务器: sudo apt-get install vsftpd -y
-检查是否启动有端⼝为21的进程: netstat -tnl
+## FTP
+
+1.安装vsftpd服务器: 
+```shell
+sudo apt-get install vsftpd -y
+```
+
+2.检查是否启动有端⼝为21的进程: 
+```shell
+netstat -tnl
 ps -ef | grep ftp
-配置vsftpd.conf⽂件
+```
+
+3.配置vsftpd.conf⽂件
+```shell
 sudo gedit /etc/vsftpd.conf
-匿名⽤户登录配置anonymous_enable=NO (默认为NO,不⽤修改)
-设置本机访问local_enable=YES (默认即为YES，不⽤修改)
-安装vsftpd服务器write_enable=YES 此⾏默认被注释了，去除前⾯的“#” 使得此句配置起作⽤
-指定上传下载的⽬录local_root=/home/⽤户名/ftp
-设置允许登录ftp服务器的⽤户
-chroot_list_enable=YES
-chroot_list_file=/etc/vsftpd.chroot_list
-创建“vsftpd.chroot_list”⽂件 sudo touch /etc/vsftpd.chroot_list
-编辑⽂件，加⼊允许登录的⽤户名 直接写用户名
-在ftp⽂件夹中建⽴share⽂件夹 mkdir share
-减去ftp⽬录⽂件夹 的拥有者（u）权限w权限 chmod u-w ftp
-重启 vsftpd 服务 sudo /etc/init.d/vsftpd restart
-测试上传功能，登陆ftp服务器
+```
+- 匿名⽤户登录配置anonymous_enable=NO (默认为NO,不⽤修改)
+- 设置本机访问local_enable=YES (默认即为YES，不⽤修改)
+- 安装vsftpd服务器write_enable=YES 此⾏默认被注释了，去除前⾯的“#” 使得此句配置起作⽤
+- 指定上传下载的⽬录local_root=/home/⽤户名/ftp
+- 设置允许登录ftp服务器的⽤户
+    ```
+    chroot_list_enable=YES
+    chroot_list_file=/etc/vsftpd.chroot_list
+    ```
+  
+4.创建“vsftpd.chroot_list”⽂件
+```shell
+sudo touch /etc/vsftpd.chroot_list
+```
+
+5.编辑⽂件，加⼊允许登录的⽤户名 直接写用户名
+
+6.在ftp⽂件夹中建⽴share⽂件夹
+```shell
+mkdir share
+```
+
+7.减去ftp⽬录⽂件夹 的拥有者（u）权限w权限
+```shell
+chmod u-w ftp
+```
+
+8.重启 vsftpd 服务
+```shell
+sudo /etc/init.d/vsftpd restart
+```
+
+9.测试上传功能，登陆ftp服务器
+
 打开linux 终端，输⼊ ftp ftp服务器ip 测试，即可进⼊ ftp 命令⾏模式:ftp IP
-上传命令:put somefile
-下载命令:get somefile
-卸载vsftpd:sudo apt-get remove --purge vsftpd
-(--purge 选项表示彻底删除改软件和相关⽂件)
+- 上传命令:put somefile
+- 下载命令:get somefile
 
-# UDP编程
-##服务的步骤
-1、创建⼀个socket，⽤函数socket()；
-2、设置socket属性，⽤函数setsockopt();* 可选
-3、绑定IP地址、端⼝等信息到socket上，⽤函数bind();
-4、循环接收数据，⽤函数recvfrom();
-5、关闭⽹络连接；
+10.卸载vsftpd
+```shell
+sudo apt-get remove --purge vsftpd
+```
+- purge 选项表示彻底删除改软件和相关⽂件
 
-##客户端步骤
-1、创建⼀个socket，⽤函数socket()；
-2、设置socket属性，⽤函数setsockopt();* 可选
-3、绑定IP地址、端⼝等信息到socket上，⽤函数bind();* 可选
-4、设置对⽅的IP地址和端⼝等属性;
-5、发送数据，⽤函数sendto();
-6、关闭⽹络连接；
+## UDP编程
 
-# TCP简介
+1.服务的步骤
+- 创建⼀个socket，⽤函数socket()；
+- 设置socket属性，⽤函数setsockopt();* 可选
+- 绑定IP地址、端⼝等信息到socket上，⽤函数bind();
+- 循环接收数据，⽤函数recvfrom();
+- 关闭⽹络连接；
+
+2.客户端步骤
+- 创建⼀个socket，⽤函数socket()；
+- 设置socket属性，⽤函数setsockopt();* 可选
+- 绑定IP地址、端⼝等信息到socket上，⽤函数bind();* 可选
+- 设置对⽅的IP地址和端⼝等属性;
+- 发送数据，⽤函数sendto();
+- 关闭⽹络连接；
+
+## TCP简介
 ⾯向连接,基于字节流的传输层通信协议
 过创建连接、数据传送、终⽌连接
 这种连接是⼀对⼀的，因此TCP不适⽤于⼴播的应⽤程序，基于⼴播的应⽤程序请使⽤UDP协议。
@@ -134,35 +193,38 @@ chroot_list_file=/etc/vsftpd.chroot_list
 错误校验:TCP⽤⼀个校验和函数来检验数据是否有错误
 流量控制和阻塞管理:流量控制⽤来避免主机发送得过快⽽使接收⽅来不及完全收下。
 
-# TCP编程
-##服务器端步骤
-1、创建⼀个socket，⽤函数socket()；
-2、设置socket属性，⽤函数setsockopt(); * 可选
-3、绑定IP地址、端⼝等信息到socket上，⽤函数bind();
-4、开启监听，⽤函数listen()；
-5、接收客户端上来的连接，⽤函数accept()；
-6、收发数据，⽤函数send()和recv()，或者read()和write();
-7、关闭⽹络连接；
-8、关闭监听；
+## TCP编程
+1.服务器端步骤
+- 创建⼀个socket，⽤函数socket()；
+- 设置socket属性，⽤函数setsockopt(); * 可选
+- 绑定IP地址、端⼝等信息到socket上，⽤函数bind();
+- 开启监听，⽤函数listen()；
+- 接收客户端上来的连接，⽤函数accept()；
+- 收发数据，⽤函数send()和recv()，或者read()和write();
+- 关闭⽹络连接；
+- 关闭监听；
 
-##客户端步骤:
-1、创建⼀个socket，⽤函数socket()；
-2、设置socket属性，⽤函数setsockopt();* 可选
-3、绑定IP地址、端⼝等信息到socket上，⽤函数bind();* 可选
-4、设置要连接的对⽅的IP地址和端⼝等属性；
-5、连接服务器，⽤函数connect()；
-6、收发数据，⽤函数send()和recv()，或者read()和write();
-7、关闭⽹络连接；
+2.客户端步骤:
+- 创建⼀个socket，⽤函数socket()；
+- 设置socket属性，⽤函数setsockopt();* 可选
+- 绑定IP地址、端⼝等信息到socket上，⽤函数bind();* 可选
+- 设置要连接的对⽅的IP地址和端⼝等属性；
+- 连接服务器，⽤函数connect()；
+- 收发数据，⽤函数send()和recv()，或者read()和write();
+- 关闭⽹络连接；
 
-##TCP客户端发送/接收信息：
+3.TCP客户端发送/接收信息：
+```python
 import socket # 1、导⼊socket模块
 tcp_client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # 2、创建socket
 tcp_client_socket.connect(("192.168.31.247", 7878)) # 3、建⽴tcp连接，这边服务端要启动才能链接成功
 recv_data = tcp_client_socket.recv(1024)# 开始接收对⽅回复的数据
 tcp_client_socket.send("哈哈哈，打不过我吧！？".encode("utf-8")) # 4、开始发送数据
 tcp_client_socket.close() # 5、关闭套接字
+```
 
-##TCP服务端接收/回复信息：
+4.TCP服务端接收/回复信息：
+```python
 from socket import *
 tcp_server_socket = socket(AF_INET, SOCK_STREAM) # 创建socket
 tcp_server_socket.bind(('', 7788)) # 绑定
@@ -171,28 +233,33 @@ client_socket, ip_port = tcp_server_socket.accept() # client_socket⽤来为这�
 recv_data = client_socket.recv(1024) # 接收对⽅发送过来的数据 接收1024个字节
 client_socket.send("好的，已经收到！～".encode('gbk')) # 发送⼀些数据到客户端
 client_socket.close() # 关闭为这个客户端服务的套接字，只要关闭了，就意味着为不能再为这个客户端服务了，如果还需要服务，只能再次重新连接
+```
+
+5.tcp注意点
+- tcp服务器⼀般情况下都需要绑定端⼝和IP，否则客户端找不到这个服务器
+- tcp客户端⼀般不绑定，因为是主动链接服务器，所以只要确定好服务器的ip、port等信息就好，本地客户端可以随机
+- tcp服务器中通过listen可以将socket创建出来的主动套接字变为被动的，这是做tcp服务器时必须要做的
+- 当客户端需要链接服务器时，就需要使⽤connect进⾏链接，udp是不需要链接的⽽是直接发送，但是tcp必须先链接，只有链接成功才能通信
+- 当⼀个tcp客户端连接服务器时，服务器端会有1个新的套接字，这个套接字⽤来标记这个客户端，单独为这个客户端服务
+- listen后的套接字是被动套接字，⽤来接收新的客户端的链接请求的，⽽accept返回的新套接字是标记这个新客户端的
+- 关闭listen后的套接字意味着被动套接字关闭了，会导致新的客户端不能够链接服务器，但是之前已经链接成功的客户端正常通信。
+- 关闭accept返回的套接字意味着这个客户端已经服务完毕
+- 当客户端的套接字调⽤close后，服务器端会recv解堵塞，并且返回的⻓度为0，因此服务器可以通过返回数据的⻓度来区别客户端是否已经下线
 
 
-# ⻓连接和短连接
+## ⻓连接和短连接
+
 在HTTP/1.0中, 默认使⽤的是短连接.也就是说, 浏览器和服务器每进⾏⼀次HTTP操作, 就建⽴⼀次连接, 但任务结束就中断连接.如果客户端浏览器访问的某个HTML或其他类型的 Web ⻚中包含有其他的Web资源，如js⽂件、图像⽂件、CSS⽂件等；当浏览器每遇到这样⼀个Web资源，就会建⽴⼀ 个HTTP会话。
 但从 HTTP/1.1起，默认使⽤⻓连接，⽤以保持连接特性。使⽤⻓连接的HTTP协议，会在响应头 有加⼊这⾏代码:Connection:keep-alive
-1在真正的读写操作之前，server与client之间必须建⽴⼀个连接，
-2当读写操作完成后，双⽅不再需要这个连接时它们可以释放这个连接，
-3连接的建⽴通过三次握⼿，释放则需要四次握⼿，
+- 在真正的读写操作之前，server与client之间必须建⽴⼀个连接，
+- 当读写操作完成后，双⽅不再需要这个连接时它们可以释放这个连接，
+- 连接的建⽴通过三次握⼿，释放则需要四次握⼿，
 
 
-# tcp注意点
-1. tcp服务器⼀般情况下都需要绑定端⼝和IP，否则客户端找不到这个服务器
-2. tcp客户端⼀般不绑定，因为是主动链接服务器，所以只要确定好服务器的ip、port等信息就好，本地客户端可以随机
-3. tcp服务器中通过listen可以将socket创建出来的主动套接字变为被动的，这是做tcp服务器时必须要做的
-4. 当客户端需要链接服务器时，就需要使⽤connect进⾏链接，udp是不需要链接的⽽是直接发送，但是tcp必须先链接，只有链接成功才能通信
-5. 当⼀个tcp客户端连接服务器时，服务器端会有1个新的套接字，这个套接字⽤来标记这个客户端，单独为这个客户端服务
-6. listen后的套接字是被动套接字，⽤来接收新的客户端的链接请求的，⽽accept返回的新套接字是标记这个新客户端的
-7. 关闭listen后的套接字意味着被动套接字关闭了，会导致新的客户端不能够链接服务器，但是之前已经链接成功的客户端正常通信。
-8. 关闭accept返回的套接字意味着这个客户端已经服务完毕
-9. 当客户端的套接字调⽤close后，服务器端会recv解堵塞，并且返回的⻓度为0，因此服务器可以通过返回数据的⻓度来区别客户端是否已经下线
 
-# 模拟浏览器请求web过程
+
+## 模拟浏览器请求web过程
+
 ```python
 import socket
 tcp_socket = socket.socket()
@@ -211,10 +278,14 @@ with open("index.html", "wb") as file:
 tcp_socket.close()
 ```
 
-# 使用终端启动web服务器
-> 启动格式：python3 webServer.py 8080
+## 使用终端启动web服务器
 
-## 实现思路
+启动格式：
+```shell
+python3 webServer.py 8080
+```
+
+1.实现思路
 `
 1.导入sys模块
 2.sys.argv获取参数列表
@@ -223,10 +294,10 @@ tcp_socket.close()
 5.接受启动参数端口号
 6.使用提供的端口号启动web服务器
 `
-sys.argv[]是⽤来获取命令⾏参数的
-sys.argv[0]⽐如在CMD命令⾏输⼊ “python test.py -help”，那么sys.argv[0]就代表“test.py”
-sys.startswith() 是⽤来判断⼀个对象是以什么开头的，⽐如在python命令⾏输⼊“'abc'.startswith('ab')”就会返回True。
-检测字符串是否只由数字组成：str.isdigit()  ==> True False
+- sys.argv[]是⽤来获取命令⾏参数的
+- sys.argv[0]⽐如在CMD命令⾏输⼊ “python test.py -help”，那么sys.argv[0]就代表“test.py”
+- sys.startswith() 是⽤来判断⼀个对象是以什么开头的，⽐如在python命令⾏输⼊“'abc'.startswith('ab')”就会返回True。
+- 检测字符串是否只由数字组成：str.isdigit()  ==> True False
 ```python
 import sys
 def main():
@@ -239,8 +310,8 @@ def main():
     port = int(sys.argv[1])  # 保存端⼝
 ```
 
-# 实现网游服务器
-## 实现思路
+## 实现网游服务器
+1.实现思路
 `
 1、定义初始化项⽬的⽅法
 2、定义字典保存项⽬路径 字典格式：key=项⽬名称 value=路径
@@ -250,21 +321,24 @@ def main():
 6、修改Web服务器的⽬录为实例属性保存的主⽬录
 `
 
-# 线程
-⼀个标准的线程由线程ID，当前指令指针(PC），寄存器集合和堆栈组成。
-线程是进程中的⼀个实体，是被系统独⽴调度和分派的基本单位，线程⾃⼰不拥有系统资源，只拥有⼀点⼉在运⾏中必不可少的资源，但它可与同属⼀个进程的其它线程共享进程所拥有的全部资源。
-## 主线程：
-当⼀个程序启动时，就有⼀个进程被操作系统（OS）创建，与此同时⼀个线程也⽴刻运
-⾏，该线程通常叫做程序的主线程
+## 线程
+- ⼀个标准的线程由线程ID，当前指令指针(PC），寄存器集合和堆栈组成。
+- 线程是进程中的⼀个实体，是被系统独⽴调度和分派的基本单位，线程⾃⼰不拥有系统资源，只拥有⼀点⼉在运⾏中必不可少的资源，但它可与同属⼀个进程的其它线程共享进程所拥有的全部资源。
+
+1.主线程：
+当⼀个程序启动时，就有⼀个进程被操作系统（OS）创建，与此同时⼀个线程也⽴刻运⾏，该线程通常叫做程序的主线程
+
 主线程的重要性有两⽅⾯：
-1）是产⽣其他⼦线程的线程；
-2）通常它必须最后完成执⾏⽐如执⾏各种关闭动作。
-## 子线程
+- 产⽣其他⼦线程的线程；
+- 通常它必须最后完成执⾏⽐如执⾏各种关闭动作。
+
+2.子线程
+
 可以看做是程序执⾏的⼀条分⽀，当⼦线程启动后会和主线程⼀起同时执⾏
 
-## 使⽤threading模块 创建⼦线程
-> threading.Thread(target=函数名) threading模块的Thread类 创建⼦线程对象
-> 线程对象 .start() 启动⼦线程
+3.使⽤threading模块 创建⼦线程
+- threading.Thread(target=函数名) threading模块的Thread类 创建⼦线程对象
+- 线程对象 .start() 启动⼦线程
 
 ```python
 import threading # 1、导⼊ threading 模块
@@ -283,9 +357,10 @@ if __name__ == '__main__':
         print(t)
 ```
 线程数量 = 主线程 + 子线程数量
-threading.Thread创建出来的都是子线程
-mainThread和Main函数或者程序入口都是主线程
-调用start时候才会真正创建线程，并且开始执行
+
+- threading.Thread创建出来的都是子线程
+- mainThread和Main函数或者程序入口都是主线程
+- 调用start时候才会真正创建线程，并且开始执行
 ```python
 import threading
 from time import sleep, ctime
@@ -312,11 +387,15 @@ if __name__ == '__main__':
     # sleep(5) # 屏蔽此⾏代码，试试看，程序是否会⽴⻢结束？
     print('---结束---:%s' % ctime())
 ```
-## 线程方法
-- 查看线程数量 threading.enumerate()
+4.线程方法
 
-## 线程参数传递
+查看线程数量 
+```python
+threading.enumerate()
 ```
+
+5.线程参数传递
+```python
 t1 = threading.Thread(target=sing, args=(10, 100, 100))
 t1 = threading.Thread(target=sing, kwargs={"a": 10, "b": 100, "c": 100})
 t1 = threading.Thread(target=sing, args=(10, ), kwargs={"b": 100, "c": 100})
@@ -325,13 +404,12 @@ t1 = threading.Thread(target=sing, args=(10, ), kwargs={"b": 100, "c": 100})
 当执⾏到sleep语句时，线程将被阻塞（Blocked），到sleep结束后，线程进⼊就绪（Runnable）状态，等待调度。
 ⽽线程调度将⾃⾏选择⼀个线程执⾏。上⾯的代码中只能保证每个线程都运⾏完整个run函数，但是线程的启动顺序、run函数中每次循环的执⾏顺序都不能确定。
 
-## 总结
-1. 每个线程默认有⼀个名字，尽管上⾯的例⼦中没有指定线程对象的name，但是python会⾃动为线程指定⼀个名字。
-2. 当线程的run()⽅法结束时该线程完成。
-3. ⽆法控制线程调度程序，但可以通过别的⽅式来影响线程调度的⽅式。
+6.守护线程
 
-## 守护线程
-守护线程：如果在程序中将⼦线程设置为守护线程，则该⼦线程会在主线程结束时⾃动退出，设置⽅式为thread.setDaemon(True)，
+守护线程：如果在程序中将⼦线程设置为守护线程，则该⼦线程会在主线程结束时⾃动退出，设置⽅式为
+```python
+thread.setDaemon(True)
+```
 要在thread.start()之前设置，默认是false的，也就是主线程结束时，⼦线程依然在执⾏。
 
 ```python
@@ -355,9 +433,14 @@ if __name__ == '__main__':
     exit() # 如果想让主线程结束的时候，没有执⾏完成的⼦线程也⼀起结束，这就是 线程守护
 ```
 
+7.总结
+- 每个线程默认有⼀个名字，尽管上⾯的例⼦中没有指定线程对象的name，但是python会⾃动为线程指定⼀个名字。
+- 当线程的run()⽅法结束时该线程完成。
+- ⽆法控制线程调度程序，但可以通过别的⽅式来影响线程调度的⽅式。
+
 ## 并行和并发
-并发：指的是任务数多于cpu核数，通过操作系统的各种任务调度算法，实现⽤多个任务“⼀起”执⾏（实际上总有⼀些任务不在执⾏，因为切换任务的速度相当快，看上去⼀起执⾏⽽已）
-并⾏：指的是任务数⼩于等于cpu核数，即任务真的是⼀起执⾏的
+- 并发：指的是任务数多于cpu核数，通过操作系统的各种任务调度算法，实现⽤多个任务“⼀起”执⾏（实际上总有⼀些任务不在执⾏，因为切换任务的速度相当快，看上去⼀起执⾏⽽已）
+- 并⾏：指的是任务数⼩于等于cpu核数，即任务真的是⼀起执⾏的
 
 自定义线程类
 ```python
@@ -389,12 +472,13 @@ if __name__ == '__main__':
     # 启动线程
     mythread.start()
 ```
-说明：
+**说明**
 - python的threading.Thread类有⼀个run⽅法，⽤于定义线程的功能函数，可以在⾃⼰的线程类中覆盖该⽅法。⽽创建⾃⼰的线程实例后，通过Thread类的start⽅法，可以启动该线程，交给python虚拟机进⾏调度，当该线程获得执⾏的机会时，就会调⽤run⽅法执⾏线程。
 - 在run⽅法中 使⽤ self.name 可以获取当前正在运⾏的 线程的名称
 - 如果⾃定义类重写了 __init__() ⽅法 ，注意要在初始化⽅法中 先调⽤⽗类的__init()__⽅法,完成⽗类Thread 的必要的初始化
 
 ## 多线程-共享全局变量
+
 1.多个线程公用全局变量
 ```python
 import threading
@@ -449,19 +533,24 @@ t2.start()
 ```
 ----in work1--- [11, 22, 33, 44]
 ----in work2--- [11, 22, 33, 44]
-### 总结
+
+3.总结
 - 在⼀个进程内的所有线程共享全局变量，很⽅便在多个线程间共享数据
 - 缺点就是，线程是对全局变量随意遂改可能造成多线程之间对全局变量的混乱（即线程⾮安全）
 - 如果多个线程同时对同⼀个全局变量操作，会出现资源竞争问题，从⽽数据结果会不正确
 
-## join()方法
+4.join()方法
+
 假如有A、B两个线程同时执⾏，如果想要让A线程执⾏完成后，再执⾏线程B，那么A线程可以调⽤join()⽅法来完成
 > 线程名.join()
 
-同步：多个任务之间执⾏的时候要求有先后顺序，必须⼀个先执⾏完成之后，另⼀个才能继续执⾏，只有⼀个主线。
-异步，多个任务之间执⾏没有先后顺序，可以同时运⾏，执⾏的先后顺序不会有什么影响，存在的多条运⾏主线。
+- 同步：多个任务之间执⾏的时候要求有先后顺序，必须⼀个先执⾏完成之后，另⼀个才能继续执⾏，只有⼀个主线。
+- 异步，多个任务之间执⾏没有先后顺序，可以同时运⾏，执⾏的先后顺序不会有什么影响，存在的多条运⾏主线。
 
-互斥锁:某个线程要更改共享数据时，先将其锁定，此时资源的状态为“锁定”，其他线程不能更改；直到该线程释放资源，将资源的状态变成“⾮锁定”，其他的线程才能再次锁定该资源。互斥锁保证了每次只有⼀个线程进⾏写⼊操作，从⽽保证了多线程情况下数据的正确性。
+## 互斥锁:
+
+某个线程要更改共享数据时，先将其锁定，此时资源的状态为“锁定”，其他线程不能更改；直到该线程释放资源，将资源的状态变成“⾮锁定”，其他的线程才能再次锁定该资源。互斥锁保证了每次只有⼀个线程进⾏写⼊操作，从⽽保证了多线程情况下数据的正确性。
+
 ```python
 import threading
 # 创建锁
@@ -473,18 +562,17 @@ mutex.acquire()
 # 释放
 mutex.release()
 ```
-注意：
+
+**注意：**
 - 如果这个锁之前是没有上锁的，那么acquire不会堵塞
 - 如果在调⽤acquire对这个锁上锁之前 它已经被 其他线程上了锁，那么此时acquire会堵塞，直到这个锁被解锁为⽌
 - 互斥锁，所谓互斥就是竞争资源的多⽅必须：都加锁、加同⼀把锁 才有意义
 - ⼀般情况下，只针对最紧迫的资源加锁（范围越⼩越好）
-
-当⼀个线程调⽤锁的acquire()⽅法获得锁时，锁就进⼊“locked”状态。
-每次只有⼀个线程可以获得锁。如果此时另⼀个线程试图获得这个锁，该线程就会变为“blocked”状态，称为“阻塞”，直到拥有锁的线程调⽤锁的release()⽅法释放锁之后，锁进⼊“unlocked”状态。
-线程调度程序从处于同步阻塞状态的线程中选择⼀个来获得锁，并使得该线程进⼊运⾏（running）状态。
-
-锁的好处：确保了某段关键代码只能由⼀个线程从头到尾完整地执⾏
-锁的坏处：1.阻⽌了多线程并发执⾏，包含锁的某段代码实际上只能以单线程模式执⾏，效率就⼤⼤地下降了。2.死锁的出现
+- 当⼀个线程调⽤锁的acquire()⽅法获得锁时，锁就进⼊“locked”状态。
+- 每次只有⼀个线程可以获得锁。如果此时另⼀个线程试图获得这个锁，该线程就会变为“blocked”状态，称为“阻塞”，直到拥有锁的线程调⽤锁的release()⽅法释放锁之后，锁进⼊“unlocked”状态。
+- 线程调度程序从处于同步阻塞状态的线程中选择⼀个来获得锁，并使得该线程进⼊运⾏（running）状态。
+- 锁的好处：确保了某段关键代码只能由⼀个线程从头到尾完整地执⾏
+- 锁的坏处：1.阻⽌了多线程并发执⾏，包含锁的某段代码实际上只能以单线程模式执⾏，效率就⼤⼤地下降了。2.死锁的出现
 
 ## 死锁
 
@@ -529,11 +617,12 @@ if index >= len(data_list):
 print(data_list[index])
 ```
 
-# 进程
-进程是资源分配的最⼩单位，程序隔离的边界。
-任务数往往⼤于cpu的核数，即⼀定有⼀些任务正在执⾏，⽽另外⼀些任务在等待cpu进⾏执⾏，因此导致了有了不同的状态
+## 进程
+- 进程是资源分配的最⼩单位，程序隔离的边界。
+- 任务数往往⼤于cpu的核数，即⼀定有⼀些任务正在执⾏，⽽另外⼀些任务在等待cpu进⾏执⾏，因此导致了有了不同的状态
 ![img.png](image/img.png)
-## 进程的创建：multiprocessing
+
+1.进程的创建：multiprocessing
 > multiprocess.Process创建进程，target指定进程执行的任务函数
 
 ```python
@@ -557,6 +646,7 @@ if __name__ == '__main__':
 ```
 输出结果
 ![img.png](image/img2.png)
+
 - 创建⼦进程跟创建线程⼗分类似，只需要传⼊⼀个执⾏函数和函数的参数
 - Process([group [, target [, name [, args [, kwargs]]]]]
     - target：如果传递了函数的引⽤，这个⼦进程就执⾏这⾥(函数)的代码
@@ -571,20 +661,24 @@ if __name__ == '__main__':
     - join([timeout])：是否等待⼦进程执⾏结束，或等待多少秒
     - terminate()：不管任务是否完成，⽴即终⽌⼦进程
 
-## 进程号：Pid
-进程名称获取：multiprocessing.current_process()
+2.进程号：Pid
+进程名称获取：
+```python
+multiprocessing.current_process()
+```
 pid获取：
-1.multiprocessing.current_process().pid
-2.import os模块的getpid()
-父进程pid获取：os.getppid()
-杀掉进程：kill -9 进程编号
+- multiprocessing.current_process().pid
+- import os模块的getpid()
+- 父进程pid获取：os.getppid()
+- 杀掉进程：kill -9 进程编号
 
-## 参数
+3.参数
 - 多进程之间不能共享全局变量
 - 能够给子进程指定的函数传递参数
 - 子进程传递参数方法和子线程传递参数方法一致
 
-## 守护进程
+4.守护进程
+
 ```python
 import multiprocessing
 if __name__ == '__main__':
@@ -597,7 +691,8 @@ if __name__ == '__main__':
     exit()
 ```
 
-## 进程和线程对比
+5.进程和线程对比
+
 - 进程是系统进⾏资源分配和调度的⼀个独⽴单位.
 - 线程是进程的⼀个实体,是CPU调度和分派的基本单位,它是⽐进程更⼩的能独⽴运⾏的基本单位
 - 线程⾃⼰基本上不拥有系统资源,只拥有⼀点在运⾏中必不可少的资源(如程序计数器,⼀组寄存器和栈),但是它可与同属⼀个进程的其他的线程共享进程所拥有的全部资源.
@@ -606,7 +701,8 @@ if __name__ == '__main__':
 - 进程在执⾏过程中拥有独⽴的内存单元，⽽多个线程共享内存，从⽽极⼤地提⾼了程序的运⾏效率
 - 线程不能够独⽴执⾏，必须依存在进程中
 
-## 进程和线程得选择
+6. 进程和线程得选择
+
 - 需要频繁创建销毁的优先使⽤线程；因为对进程来说创建和销毁⼀个进程代价是很⼤的。
 - 线程的切换速度快，所以在需要⼤量计算，切换频繁时⽤线程，还有耗时的操作使⽤线程可提⾼应⽤程序的响应
 - 因为对CPU系统的效率使⽤上线程更占优，所以可能要发展到多机分布的⽤进程，多核分布⽤线程；
@@ -614,14 +710,17 @@ if __name__ == '__main__':
 - 需要更稳定安全时，适合选择进程；需要速度时，选择线程更好。
 
 ## 消息队列
-> queue = multiprocessing.Queue(3)
 
-如果不指定队列⻓度，则默认为最⼤，如果指定了消息队列的⼤⼩，则消息队列就有上限控制
-此处的 Queue(3) 指的是放⼊3条消息
-存数据put(),取数据get(), put的值⼏乎可以是任意类型
+```python
+queue = multiprocessing.Queue(3)
+```
 
-初始化Queue()对象时（例如：q=Queue()），若括号中没有指定最⼤可接收的消息数量，或数量为负值，那么就代表可接受的消息数量没有上限（直到内存的尽头）；
-方法：
+- 如果不指定队列⻓度，则默认为最⼤，如果指定了消息队列的⼤⼩，则消息队列就有上限控制
+- 此处的 Queue(3) 指的是放⼊3条消息
+- 存数据put(),取数据get(), put的值⼏乎可以是任意类型
+- 初始化Queue()对象时（例如：q=Queue()），若括号中没有指定最⼤可接收的消息数量，或数量为负值，那么就代表可接受的消息数量没有上限（直到内存的尽头）；
+
+1.方法：
   - Queue.qsize()：返回当前队列包含的消息数量；
     - 消息数量 qsize(),注意队列每get() ⼀次，数量就会 - 1
   - Queue.empty()：如果队列为空，返回True，反之False ；
@@ -637,7 +736,8 @@ if __name__ == '__main__':
   - Queue.put_nowait(item)：相当Queue.put(item, False)；
     - 不管满不满，直接放，如果队列满了，就报错
 
-使用put和empty有一个坑
+2.使用put和empty有一个坑
+
 ```python
 import multiprocessing
 import time
@@ -653,7 +753,8 @@ isEmpty = queue.empty()
 print("isEmtpy = ", isEmpty)
 ```
 
-## 用Queue实现进程间通信
+3.用Queue实现进程间通信
+
 我们以Queue为例，在⽗进程中创建两个⼦进程，⼀个往Queue⾥写数据，⼀个从Queue⾥读数据：
 ```python
 import multiprocessing
@@ -669,10 +770,11 @@ if __name__ == '__main__':
   p1.start()
 ```
 
-## 进程池Pool
-初始化Pool时，可以指定⼀个最⼤进程数，
-当有新的请求提交到Pool中时，如果池还没有满，那么就会创建⼀个新的进程⽤来执⾏该请求；
-但如果池中的进程数已经达到指定的最⼤值，那么该请求就会等待，直到池中有进程结束，才会⽤之前的进程来执⾏新的任务。
+4.进程池Pool
+
+- 初始化Pool时，可以指定⼀个最⼤进程数，
+- 当有新的请求提交到Pool中时，如果池还没有满，那么就会创建⼀个新的进程⽤来执⾏该请求；
+- 但如果池中的进程数已经达到指定的最⼤值，那么该请求就会等待，直到池中有进程结束，才会⽤之前的进程来执⾏新的任务。
 
 > 同步⽅式：pool.apply()
 > 异步⽅式 pool.apply_async()
@@ -723,12 +825,14 @@ if __name__ == '__main__':
 ```
 
 
-# 可迭代对象
-迭代是访问集合元素的⼀种⽅式。迭代器是⼀个可以记住遍历的位置的对象。
-迭代器对象从集合的第⼀个元素开始访问，直到所有的元素被访问完结束。迭代器只能往前不会后退。
+## 可迭代对象
+- 迭代是访问集合元素的⼀种⽅式。迭代器是⼀个可以记住遍历的位置的对象。
+- 迭代器对象从集合的第⼀个元素开始访问，直到所有的元素被访问完结束。迭代器只能往前不会后退。
 
-for循环可迭代的对象有： list tuple str dict set range
-判断⼀个对象是否是 Iterable 对象：isinstance() 
+1.for循环可迭代的对象有： list tuple str dict set range
+
+2.判断⼀个对象是否是 Iterable 对象：isinstance() 
+
 ```python
 from collections import Iterable
 # 使⽤isinstance() 函数检测某个对象是否是⼀个可迭代的对象
@@ -746,7 +850,8 @@ c1 = MyClass()
 result = isinstance(c1, Iterable)
 print(result)
 ```
-## 可迭代对象的本质
+
+3.可迭代对象的本质
 > ⼀个对象所属的类中含有 __iter__() ⽅法，该对象就是⼀个可迭代对象。
 
 ```python
@@ -762,11 +867,16 @@ c1 = MyClass()
 result = isinstance(c1, Iterable)
 print(result)
 ```
+
 ## 迭代器(Iterator)
 我们在迭代⼀个可迭代对象的时候，实际上就是先获取该对象提供的⼀个迭代器，然后通过这个迭代器来依次获取对象中的每⼀个数据.
-### iter()函数与next()函数
+
+1.iter()函数与next()函数
+
 我们可以通过iter()函数获取这些可迭代对象的迭代器,iter()函数实际上就是调⽤了可迭代对象的 __iter__ ⽅法。
+
 然后我们可以对获取到的迭代器不断使⽤next()函数来获取下⼀条数据
+
 ```python
 li = [1, 2, 3, 4]
 li_iter = iter(li)
@@ -777,15 +887,16 @@ print(next(li_iter)) #  ==> 4
 ```
 再次调用next就报StopIteration异常，不能再执行next函数了
 
-### 自定义迭代器
+2.自定义迭代器
+
 ⼀个类实现了 __iter__ ⽅法和 __next__ ⽅法的对象，就是⾃定义迭代器。
+
 - 当调⽤iter(迭代器对象)时，会调⽤对象的 __iter__() ⽅法
 - 当调⽤next(迭代器对象)时，会调⽤对象的 __next__() ⽅法
 - 迭代器⾃身正是⼀个迭代器，所以迭代器的 __iter__ ⽅法返回⾃身即可。
 
 ```python
 from collections import Iterable
-
 
 # 自定义迭代器类
 class MyListIterator():

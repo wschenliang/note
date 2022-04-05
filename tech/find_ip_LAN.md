@@ -1,23 +1,24 @@
+## 流程：
 **注意：**
-
 用管理员权限打开cmd
 
-## 获取本机ip和局域网所在的网段
+1.获取本机ip和局域网所在的网段
 ```shell
 ipconfig /all
 ```
-##清空当前所有的arp映射表
+2.清空当前所有的arp映射表
 ```shell
 arp -d *
 ```
-## 循环ping设备
+3.循环ping设备
 ```shell
 for /L %i IN (1,1,254) DO ping -w 1 -n 1 192.168.31.%i
 ```
-## 展示在线ip
+4.展示在线ip
 ```shell
 arp -a
 ```
+
 ## 其他命令
 ```shell
 # 扫描目标
@@ -28,7 +29,7 @@ nmap -T4 -A 192.168.6.102
 hydra 192.168.6.102 telnet -l admin -P /root/my.txt -V
 ```
 
-python代码：
+## python代码：
 ```python
 
 import os

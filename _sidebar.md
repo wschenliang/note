@@ -31,6 +31,7 @@
   
   - [docsify快速部署](tool/quick_start.md)
   - [markdown图标大全](tool/markdown_icon.md)
+  - [本地生成ssh公钥密钥](tool/ssh_public_key.md)
 
 
 - ☎ 联系我
