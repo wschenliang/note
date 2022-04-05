@@ -22,6 +22,11 @@
   - [python中使用mysql](python/python_mysql.md)
   - [正则表达式](python/python_re.md)
   
+- ☕ Java
+
+  - [java常用设计模式](java/java_pattern.md)
+  - [jvm虚拟机调优](java/jvm.md)
+  
 - 🍀 VUE
   - [es6语法](vue/es6.md)
   - [vue入门](vue/vue.md)
