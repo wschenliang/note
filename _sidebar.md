@@ -5,13 +5,18 @@
   - [算法](base_knowledge/algorithm.md)
   - [mysql](base_knowledge/mysql.md)
   
-- 👑 实验技术分享
+- 👑 常用技术分享
 
   - [ubuntu安装](tech/ubuntu.md)
   - [Liunx常用命令](tech/liunx.md)
   - [es学习](tech/es.md)
   - [mirai操作手册](tech/mirai.md)
   - [查询局域网内设备在线ip](tech/find_ip_LAN.md)
+  
+- 🌸 实验经验总结
+  
+  - [十大机器学习算法](experiment/machine_learning.md)
+  - [机器学习速成表](experiment/machine_conclusion.md)
   
 - 🐛 Python
 
