@@ -131,7 +131,8 @@ flush privileges;
 ```sql
 Use mysql;
 select host,user from user;
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION
+-- 下面这句对ubuntu20可能不支持，可以尝试去掉IDENTIFIED BY 后面得
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
 flush privileges;
 quit
 ```

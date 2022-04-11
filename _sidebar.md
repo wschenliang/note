@@ -15,7 +15,7 @@
   
 - 🌸 实验经验总结
   
-  - [十大机器学习算法](experiment/machine_learning.md)
+  - [十五大机器学习算法](experiment/machine_learning.md)
   - [机器学习速成表](experiment/machine_conclusion.md)
   
 - 🐛 Python
