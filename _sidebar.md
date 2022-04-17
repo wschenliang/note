@@ -17,6 +17,7 @@
   
   - [十五大机器学习算法](experiment/machine_learning.md)
   - [机器学习速成表](experiment/machine_conclusion.md)
+  - [机器学习算法PK](experiment/ML_PK.md)
   
 - 🐛 Python
 
