@@ -18,6 +18,8 @@
   - [十五大机器学习算法](experiment/machine_learning.md)
   - [机器学习速成表](experiment/machine_conclusion.md)
   - [机器学习算法PK](experiment/ML_PK.md)
+  - [特征选择](experiment/feature_selection.md)
+  - [特征选择2](experiment/feature_selection_guide.md)
   
 - 🐛 Python
 
