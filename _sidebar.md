@@ -45,6 +45,7 @@
 
   - [互联网的十年](read/Internet_10_years.md)
   - [那些给人工智能打工的人](read/The_people_work_for_AI.md)
+  - [致敬科比](read/zhijingkebi.md)
   
 
 - 🔨 工具箱
