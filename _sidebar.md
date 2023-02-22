@@ -12,6 +12,7 @@
   - [es学习](tech/es.md)
   - [mirai操作手册](tech/mirai.md)
   - [查询局域网内设备在线ip](tech/find_ip_LAN.md)
+  - [centos7软件安装](tech/centos7_install.md)
   
 - 🌸 实验经验总结
   
