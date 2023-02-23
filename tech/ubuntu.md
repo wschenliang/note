@@ -225,5 +225,32 @@ sudo usermod -aG wireshark 你的用户名
     chmod u-w /etc/sudoers
     ```
 
+## 使用apt卸载软件
 
+一般来说使用apt安装软件,必须要有root权限,因为apt安装时需要写/usr/bin /usr/lib /usr/share等目录,而这些目录只有root用户(或有sudo权限)才有写入权限的,所以没有sudo权限的普通要用apt安装软件的话,就只能以 源码安装方式 来安装了
 
+参考https://blog.csdn.net/qq_24406903/article/details/88376829
+
+apt 清除命令 待删除的软件
+```shell
+apt purge python
+```
+
+的在桌面版的Ubuntu系统下尽量不要使用：
+```shell
+apt autoremove
+```
+删除已安装的软件包（保留配置文件），不会删除依赖软件包，且保留配置文件。
+（这个命令容易导致系统无法进入系统桌面）高能警告：慎用本命令！！！
+它会在你不知情的情况下，一股脑删除很多“它认为”你不再使用的软件；
+
+```shell
+apt remove # 删除已安装的软件包（保留配置文件），不会删除依赖软件包，保留配置文件`；
+
+apt purge # 删除已安装包（不保留配置文件)，删除软件包，同时删除相应依赖软件包`。
+
+apt clean # 此命令会将 /var/cache/apt/archives/ 下的 所有 deb 删掉，相当于清理下载的软件安装包。
+
+apt autoclean # 删除为了满足某些依赖安装的，但现在不再需要的软件包。
+```
+*以上最推荐使用 apt purge 最简单 如果提示权限不够 命令前加上sudo即可*

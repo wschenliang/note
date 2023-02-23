@@ -1,19 +1,5 @@
-## 开放端口
 
-```shell
-firewall-cmd --zone=public --add-port=27017/tcp --permanent
-
-firewall-cmd --reload
-
-firewall-cmd --zone=public --list-ports
-
-# 删除端口
-firewall-cmd --zone= public --remove-port=80/tcp --permanent
-```
-
-## jdk/golang/nodejs
-
-将下载的jdk/go/nodejs放在/env目录下
+## 环境安装 jdk/golang
 
 ```shell
 vim /etc/profile
@@ -312,14 +298,12 @@ Successfully added user: {
 > 
 ```
 
-## ELK
+## es
 
 ```shell
 cd /home/software
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.6.2-linux-x86_64.tar.gz
-
 tar -zxvf elasticsearch-7.6.2-linux-x86_64.tar.gz
-
 ```
 笔者的 Elasticsearch 最终安装路径为：/home/software/data/elasticsearch-7.6.2。
 
@@ -597,3 +581,204 @@ scrape_configs:
       - targets: ['localhost:9100']
 ```
 重新启动Prometheus Server
+
+
+## nginx
+
+```shell
+whereis nginx
+
+yum install -y nginx
+
+nginx -v
+
+nginx # 启动
+nginx -s stop # 停止
+nginx -s reload # 重启 
+```
+此时/etc/nginx则是nginx配置文件存放位置
+进入 目录查看 nginx.conf
+
+```
+user  root;
+worker_processes  auto;
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    include /etc/nginx/conf.d/*.conf;
+}
+```
+进入conf.d
+```shell
+vim default.conf
+```
+```
+server {
+    listen       80;
+    server_name  localhost;
+
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    #location ~ \.php$ {
+    #    root           html;
+    #    fastcgi_pass   127.0.0.1:9000;
+    #    fastcgi_index  index.php;
+    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+    #    include        fastcgi_params;
+    #}
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    #
+    #location ~ /\.ht {
+    #    deny  all;
+    #}
+}
+```
+
+```shell
+vim n9e.conf
+```
+```
+server {
+    listen       8765;
+    server_name  _;
+
+    #add_header Access-Control-Allow-Origin *;
+    #add_header 'Access-Control-Allow-Credentials' 'true';
+    #add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+    #root   /root/n9e/pub;
+
+    location / {
+
+        add_header Access-Control-Allow-Origin *;
+        add_header 'Access-Control-Allow-Credentials' 'true';
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+
+        root /root/n9e/pub;
+        try_files $uri /index.html;
+    }
+   location /api/ {
+        proxy_pass http://127.0.0.1:18000;
+    }
+}
+```
+
+离线安装nginx教程
+
+检查gcc,g++是否安装
+```shell
+gcc --version
+g++ --version
+```
+有网的条件
+安装gcc g++
+```shell
+yum -y install gcc
+yum -y install gcc-c++
+```
+
+离线安装：gcc环境安装包：gcc离线安装包
+- nginx-1.17.2.tar.gz
+- openssl-1.1.1b.tar.gz
+- pcre-8.43.tar.gz
+- zlib-1.2.11.tar.gz
+
+完成之后 我们就可以一下用下面的命令运行一下运行所有的rpm
+```shell
+rpm -ivh *.rpm --nodeps --force
+```
+nginx安装所需的文件 地址：nginx安装文件
+下好文件之后，统一上传到/opt/nginx(没有这个目录，新建)
+
+pcre安装
+执行如下命令：
+```shell
+tar -zxvf pcre-8.44.tar.gz
+cd pcre-8.44/
+./configure
+make
+make install
+```
+zlib安装
+执行如下命令：
+```shell
+tar -zxvf zlib-1.2.11.tar.gz
+cd zlib-1.2.11/
+./configure
+make
+make install
+```
+openssl安装
+执行如下命令：
+```shell
+tar -zxvf openssl-1.1.1g.tar.gz
+cd openssl-1.1.1g/
+./config
+make
+make install
+```
+
+nginx安装
+执行如下命令：
+```shell
+tar -zxvf nginx-1.14.0.tar.gz
+cd nginx-1.14.0/
+./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-pcre=…/pcre-8.44 --with-zlib=…/zlib-1.2.11 --with-openssl=…/openssl-1.1.1g
+make&&make install
+```
+
+nginx启动
+```shell
+cd /usr/local/nginx/sbin
+./nginx
+./nginx -s reload
+./nginx -s stop
+```
+
+## 安装包下载
+
+链接: https://pan.baidu.com/s/1riuzjWOPYrQRwUaGyi6-xg?pwd=8023 提取码: 8023
