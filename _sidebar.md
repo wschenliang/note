@@ -3,17 +3,18 @@
 
   - [数据结构](base_knowledge/data_structure.md)
   - [算法](base_knowledge/algorithm.md)
-  - [mysql](base_knowledge/mysql.md)
+  - [数据库](base_knowledge/mysql.md)
   
 - 👑 常用技术分享
 
-  - [ubuntu安装](tech/ubuntu.md)
-  - [Liunx常用命令](tech/liunx.md)
+  - [Linux常用命令](tech/liunx.md)
+  - [ubuntu常用命令](tech/ubuntu.md)
+  - [centos7软件安装](tech/centos7_install.md)
+  - [centos7系统设置](tech/centos7_setup.md)
+  - [shell脚本大全](tech/shell.md)
   - [es学习](tech/es.md)
   - [mirai操作手册](tech/mirai.md)
   - [查询局域网内设备在线ip](tech/find_ip_LAN.md)
-  - [centos7软件安装](tech/centos7_install.md)
-  - [centos7系统设置](tech/centos7_setup.md)
   
 - 🌸 实验经验总结
   
