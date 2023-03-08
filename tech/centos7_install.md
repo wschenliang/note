@@ -779,6 +779,28 @@ cd /usr/local/nginx/sbin
 ./nginx -s stop
 ```
 
+
+## jenkins
+
+```shell
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+```
+如果您之前从 Jenkins 导入了密钥，则会失败，因为 您已经有钥匙了。请忽略这一点并继续前进。rpm --import
+```shell
+yum install fontconfig java-11-openjdk
+yum install jenkins
+```
+
+rpm 软件包是使用以下密钥签名的：
+pub   rsa4096 2020-03-30 [SC] [expires: 2023-03-30]
+62A9756BFD780C377CF24BA8FCEF32E745F2C3D5
+uid                      Jenkins Project
+sub   rsa4096 2020-03-30 [E] [expires: 2023-03-30]
+您需要从发行版中显式安装受支持的 Java 运行时环境 （JRE）
+
+cd2de7b802324fc0904cd8b3bc0db235
+
 ## 安装包下载
 
 链接: https://pan.baidu.com/s/1riuzjWOPYrQRwUaGyi6-xg?pwd=8023 提取码: 8023
