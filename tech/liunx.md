@@ -183,3 +183,18 @@ export PATH=$PATH:$JAVA_HOME/bin
 ```shell
 source /etc/profile
 ```
+
+
+## 其他
+
+pip install virtualenv --trusted-host -i http://mirrors.aliyun.com/pypi/simple/
+
+yum repolist
+
+rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+
+## windows下terminal无效
+
+打开powershell
+
+Set-ExecutionPolicy unrestricted

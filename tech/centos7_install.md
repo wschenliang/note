@@ -298,6 +298,15 @@ Successfully added user: {
 > 
 ```
 
+```shell
+/opt/apps/mongodb/bin/mongod -f /opt/apps/mongodb/mongodb.conf
+
+mongod -config /opt/apps/mongodb/rs/conf/node1/mongodb.cfg
+mongod -config /opt/apps/mongodb/rs/conf/node1/mongodb.cfg --replSet=rs0
+
+mongo --host 127.0.0.1 --port 27017 -u cc -p cc --authenticationDatabase cmdb
+```
+
 ## es
 
 ```shell
@@ -354,6 +363,10 @@ cluster.initial_master_nodes: ["node-1"]
 chmod +x bin/elasticsearch
 ```
 
+es看lience
+```shell
+curl -ues -XGET "http://localhost:9200/_xpack?pretty"
+```
 
 ## rabbitmq
 
