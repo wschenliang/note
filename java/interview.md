@@ -222,10 +222,136 @@ System.out.println(s3 == s4);  //true
 s3并没有进入字符串池，执行了intern后，s3指向引用放入字符串常量池，s4也直接获得引用
 
 
+## 常见的字符编码有哪些？有什么区别？
+
+Unicode：万国码，是计算机科学领域里的一项业界标准。对世界大部分的文字进行了整理、编码，使得计算机用更为简单的方式来呈现和处理文字。
+Unicode虽然统一了全世界字符编码，但是为规定如何存储，比如英语字母在ASCII中都有，用1个字节表示，剩余字节填充0会造成极大的浪费，因此出现了中间格式字符集，成为通用转换格式即UTF-8
+
+UTF-8使用1-4字节为每个字符编码
+UTF-8和UTF-16都是Unicode的一种实现方式。
+
+由于先纳入的字节使用了1-2字节，晚纳入的字节占了3-4字节，对于常用汉字，采用了3字节编码，但是只包含中文和ASCII编码的话，2字节就够了，因此有了GBK编码
 
 
+## 什么是泛型？有什么好处？
+
+Java泛型(generics)是IDK5中引入的一个新特性，允许在定义类和接口的时候使用类型参数(type parameter)。
+声明的类型参数在使用时用具体的类型来替换。泛型最主要的应用是在JDK5中的新集合类框架中。
+
+好处：
+1.方便:可以提高代码的复用性。以List接口为例，我们可以将String、Integer等类型放入List中，如不用泛型，存放String类型要写一个List接口存放Integer要写另外一个List接口，泛型可以很好的解决这个问题
+2.安全:在泛型出之前，通过Obiect实现的类型转换需要在运行时检查，如果类型转换出错，程序直接GG，可能会带来毁灭性打击。而泛型的作用就是在编译时做类型检查，这无疑增加程序的安全性
+
+Java中的泛型通过类型擦除的方式来实现。
+通俗点理解，就是通过语法糖的形式，在java->.class转换的阶段，将List<String>擦除调转为List的手段。
+换句话说，Java的泛型只在编译期，Jvm是不会感知到泛型的。
+
+类型擦除可以简单的理解为将泛型java代码转换为普通java代码，只不过编译器更直接点，将泛型java代码直接转换成普通java字节码。
+
+类型擦除缺点：
+1.泛型不能重载
+2.泛型异常类不能多次catch
+3.泛型类的静态变量只有一份，不会多份
+
+E - Element、T - Type、K - Key、V - Value、N - Number
+
+## List<?>、List<Object>、List之间的区别
+
+1.List<?>是一个未知类型的List，List<Object>是任意类型的List，可以把List<String>赋值给List<?>，但不能赋值给List<Object>
+2.可以把任何带参数的类型传递给原始类型List，但不支持List<Object>
+3.List<?>不能添加出了null之外的任何元素
+
+对于数组协变和泛型非协变的理解
+所谓协变，可以简单理解为因为Object是String的父类，所以Object同样是String[的父类，这种情况Java是允许的;
+但是对于泛型来说，List<Object>和List<String>半毛钱关系都没有
+
+## API和SPI有啥区别
+API-是直接被应用开发人员使用，定义了软件组件之间交互的规则和约定的接口。
+SPI-是被框架扩展人员使用，通常用于在应用程序提供可插拔的实现，调用方可选择使用提供方内置的实现
+
+SPI的应用场景
+概括地说，适用于:调用者根据实际使用需要，启用、扩展、或者替换框架的实现策略。比较常见的例子:
+1.数据库驱动加载接口实现类的加载
+2.JDBC加载不同类型数据库的驱动
+3.日志门面接口实现类加载
+4.SLF4J加载不同提供商的日志实现类
 
 
+## 什么是反射机制？为什么反射慢？
+
+反射机制指的是程序在运行时能够获取自身的信息。在java中，只要给定类的名字，那么就可以通过反射机制来获得类的所有属性和方法。
+Java的反射可以:
+1. 在运行时判断任意一个对象所属的类
+2. 在运行时判断任意一个类所具有的成员变量和方法
+3. 在运行时任意调用一个对象的方法
+4. 在运行时构造任意一个类的对象
+
+```java
+Object obj = ...;
+Class<?> clazz = obj.getClass();
+
+Method[] methods = clazz.getDeclaredMethods();
+Method method = clazz.getDeclaredMethod("methodName", 方法参数类型);
+method.setAccessible(true);
+method.invoke(obj, 方法参数);
+
+Object o = clazz.newInstance();
+Constructor<?> constructor = clazz.getConstructor(参数类型);
+Object o1 = constructor.newInstance(构造函数参数);
+```
+
+反射的好处就是可以提升程序的灵活性和扩展性，比较容易在运行期干很多事情。但是他带来的问题更多，主要由以下几个:
+1. 代码可读性低及可维护性
+2. 反射代码执行的性能低
+3. 反射破坏了封装性
+所以，我们应该在业务代码中应该尽量避免使用反射。但是，作为一个合格的Java开发，也要能读懂中间件、框架中的反射代码。在有些场景下，要知道可以使用反射解决部分问题
+
+反射慢的主要原因：
+1. 由于反射涉及动态解析的类型，因此不能执行某些Java虚拟机优化，如JT优化。
+2. 在使用反射时，参数需要包装(boxing)成Object[]类型，但是真正方法执行的时候，又需要再拆包(unboxing)成真正的类型，这些动作不仅消耗时间而且过程中也会产生很多对象，对象一多就容易导致GC，GC也会导致应用变慢。
+3. 反射调用方法时会从方法数组中遍历查找，并且会检查可见性。这些动作都是耗时的。
+4. 不仅方法的可见性要做检查，参数也需要做很多额外的检查
+
+反射常用场景
+
+1. 动态代理
+2. JDBC的class.forName
+3. BeanUtils中属性值的拷贝
+4. RPC框架
+5. ORM框架
+6. Spring的IOC/DI
+
+反射和Class的关系
+
+Java的Class类是java反射机制的基础,通过Class类我们可以获得关于一个类的相关信息
+
+Java.lang.Class是一个比较特殊的类，它用于封装被装入到IVM中的类(包括类和接口)的信息。当一个类或接口被装入到IVM时便会产生一个与之关联的java.lang.Class对象，可以通过这个Class对象对被装入类的详细信息进行访问虚拟机为每种类型管理一个独一无二的Class对象。也就是说，每个类(型)都有一个Class对象。运行程序时，Java虚拟机(VM)首先检查是否所要加载的类对应的Class对象是否已经加载。如果没有加载，M就会根据类名查找.class文件并将其Class对象载入。
+
+## Java中创建对象有哪些种方式
+
+1. new
+2. 使用反射Class类中的newInstance方法，或者Constructor类中newInstance方法
+3. clone方法，需要实现cloneable接口
+4. 反序列化 new ObjectOutputStream(new FileOutputStream("..."))
+5. 方法句柄，MethodType.methodType(void.class).lookup().finConstructor(User.class)
+6. 使用Unsafe分配内存和对象实例化，但不建议在生产环境使用。
 
 
+## Java的动态代理如何实现？
+
+在Java中，实现动态代理有两种方式:
+1. JDK动态代理:Java.lang.reflect 包中的Proxy类和InvocationHandler接囗提供了生成动态代理类的能力。
+2. Cglib动态代理:Cglib(Code Generation Library )是一个第三方代码生成类库，运行时在内存中动态生成一个子类对象从而实现对目标对象功能的扩展。
+
+区别：
+
+JDK的动态代理有一个限制，就是使用动态代理的对象必须实现一个或多个接口。如果想代理没有实现接口的类，就可以使用CGLIB实现。
+
+Cglib是一个强大的高性能的代码生成包，它可以在运行期扩展Java类与实现Java接口。它广泛的被许多AOP的框架使用，例如SpringAOP和dynaop，为他们提供方法的interception(拦载)。
+
+Cglib包的底层是通过使用一个小而快的字节码处理框架ASM，来转换字节码并生成新的类。不鼓励直接使用ASM，因为它需要你对JVM内部结构包括class文件的格式和指令集都很熟悉，
+
+所以，使用JDK动态代理的对象必须实现一个或多个接口;而使用cglib代理的对象则无需实现接口，达到代理类无侵入。
+
+Java的动态代理的最主要的用途就是应用在各种框架中。因为使用动态代理可以很方便的运行期生成代理类，通过代理类可以做很多事情，比如AOP，比如过滤器、拦截器等。
 
